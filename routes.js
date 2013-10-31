@@ -38,6 +38,12 @@ module.exports = function(app) {
 		});
 	});
 
+	app.get('/grid', function(req, res) {
+		res.render('grid', {
+			title: "grid"
+		});
+	});
+
 
 
 	
