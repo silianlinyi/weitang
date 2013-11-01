@@ -1,0 +1,17 @@
+
+
+body {
+  font-family: "微软雅黑", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  background: #FCFCFC url(../images/bg.jpg) repeat;
+  margin: 0px;
+  padding: 0px;
+  color: #555555;
+  min-width: 320px;
+}
+
+.launch.button {
+	position: fixed;
+	top: 40%;
+	z-index: 500;
+	width: 70px;
+}

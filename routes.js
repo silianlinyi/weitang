@@ -8,41 +8,19 @@ module.exports = function(app) {
 	});
 
 
-	app.get('/test', function(req, res) {
-		res.render('test', {
-			title: "微糖"
+	app.get('/todo', function(req, res) {
+		res.render('todo', {
+			title: "我的TODO"
 		});
 	});
 
-	app.get('/test2', function(req, res) {
-		res.render('test2', {
-			title: "微糖"
+
+	app.get('/idea', function(req, res) {
+		res.render('idea', {
+			title: "头脑风暴"
 		});
 	});
 
-	app.get('/divider', function(req, res) {
-		res.render('divider', {
-			title: "Divider"
-		});
-	});
-
-	app.get('/header', function(req, res) {
-		res.render('header', {
-			title: "header"
-		});
-	});
-
-	app.get('/icon', function(req,res) {
-		res.render('icon', {
-			title: "icon"
-		});
-	});
-
-	app.get('/grid', function(req, res) {
-		res.render('grid', {
-			title: "grid"
-		});
-	});
 
 
 

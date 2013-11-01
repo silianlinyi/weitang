@@ -20,19 +20,19 @@
     <script src="/lib/jquery.js"></script>
     <script src="/semantic/packaged/javascript/semantic.js"></script>
 </head>
-<body>
+<body id="example">
 
     <% if(true) { %>
         <div class="ui large fixed transparent inverted main menu">
             <div class="ui page grid">
-                <a href="/" class="icon item">
+                <a href="###" class="icon item">
                     <i class="apple icon"></i>
                     微糖
                 </a>
 
                 <div class="item">
                     <div class="ui icon input">
-                        <input type="text" placeholder="搜索问题..." style="width: 300px;">
+                        <input type="text" placeholder="搜索问题...">
                         <i class="search icon"></i>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                     <div class="ui teal button">搜索</div>
                 </div>
 
-                <a href="/" class="icon item">
+                <a href="###" class="icon item">
                     <i class="home icon"></i>
                     首页
                 </a>
@@ -86,45 +86,10 @@
         
     <% } %>
 
-    <div class="ui teal huge launch right attached button" data-content="点点这里更精彩哦！" data-position="right center" data-variation="inverted">
-        <i class="icon coffee layout"></i>
-    </div>
-
-    <script type="text/javascript">
-        $('.launch').popup({
-            on: 'hover'
-        });
-    </script>
-
-    <div class="ui teal vertical sidebar menu">
-        <div class="item">
-            我的应用
-            <div class="menu">
-                <a href="" class="item">
-                    <i class="tasks icon"></i>
-                    My Todo
-                </a>
-                <a href="" class="item">
-                    <i class="apple icon"></i>
-                    番茄计时
-                </a>
-            </div>
-        </div>
-        <div class="item">
-            休闲一刻
-            <div class="menu">
-                
-            </div>
-        </div>
+    
+    <div class="ui page grid">
         
     </div>
-
-    <script type="text/javascript">
-        $('.launch.button').on('click', function() {
-            $('.ui.sidebar').sidebar('toggle');
-        });
-    </script>
-    
 
     
     
