@@ -1,0 +1,38 @@
+<div class="ui teal huge launch right attached button" data-content="点点这里更精彩哦！" data-position="right center" data-variation="inverted">
+    <i class="icon coffee layout"></i>
+</div>
+
+<div class="ui teal vertical sidebar menu">
+    <div class="item">
+        我的应用
+        <div class="menu">
+            <a href="" class="item">
+                <i class="tasks icon"></i>
+                My Todo
+            </a>
+            <a href="" class="item">
+                <i class="apple icon"></i>
+                番茄计时
+            </a>
+        </div>
+    </div>
+    <div class="item">
+        休闲一刻
+        <div class="menu">
+            
+        </div>
+    </div>
+    
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        var $launch = $('.launch.button');
+        $launch.popup({
+            on: 'hover'
+        });
+        $launch.on('click', function() {
+            $('.ui.sidebar').sidebar('toggle');
+        });
+    });
+</script>
