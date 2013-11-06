@@ -10,11 +10,11 @@ define(function(require, exports, module) {
 	$loginBtn.click(function() {
 		var username = $username.val(),
 			password = $password.val();
-		if(!username) {
+		if (!username) {
 			$warning.html('<i class="icon attention"></i>请输入用户名').show();
 			return;
 		} else {
-			if(!password) {
+			if (!password) {
 				$warning.html('<i class="icon attention"></i>请输入密码').show();
 				return;
 			}
@@ -30,18 +30,22 @@ define(function(require, exports, module) {
 			dataType: 'json',
 			timeout: 15000,
 			success: function(data, textStatus, jqXHR) {
-				if(data.r === 0) { // 登录成功
-					window.location.href = "/";
+				if (data.r === 0) { // 登录成功
+					if (/signin/.test(window.location.href)) {
+						window.location.href = '/';
+					} else {
+						window.location.reload();
+					}
 				} else { // 登录失败
 					$warning.html('<i class="icon attention"></i>' + data.msg).show();
 				}
-				
+
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 
 			}
 		});
-	});	
+	});
 
 
 	$username.focus(function() {
@@ -52,6 +56,5 @@ define(function(require, exports, module) {
 		$warning.hide();
 	});
 
-	
 
 });

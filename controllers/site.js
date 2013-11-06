@@ -11,15 +11,13 @@ module.exports = {
 		res.render('index');
 	},
 
-	settings: function(req, res) {
-		res.render('settings');
+	account: function(req, res) {
+		res.render('account');
 	},
 
-
-
-
-
-
+	password: function(req, res) {
+		res.render('password');
+	},
 
 
 	idea: function(req, res) {
