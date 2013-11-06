@@ -1,4 +1,6 @@
 define(function(require, exports, module) {
+	
+	require('./mybackbone');
 
 	$(".main").onepage_scroll();
 
@@ -55,6 +57,10 @@ define(function(require, exports, module) {
 	$password.focus(function() {
 		$warning.hide();
 	});
+
+
+
+
 
 
 });
