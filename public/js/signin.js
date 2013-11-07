@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 	
-	require('./mybackbone');
+	require('./angel');
 
 	$(".main").onepage_scroll();
 
