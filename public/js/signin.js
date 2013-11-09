@@ -1,6 +1,4 @@
 define(function(require, exports, module) {
-	
-	require('./angel');
 
 	$(".main").onepage_scroll();
 
@@ -59,7 +57,11 @@ define(function(require, exports, module) {
 	});
 
 
-
+	$('body').keydown(function(e) {
+		if(e.keyCode === 13) {
+			$loginBtn.click();
+		}
+	});
 
 
 

@@ -20,7 +20,7 @@ module.exports = {
 		var username = req.body.username,
 			password = req.body.password;
 
-		if (username === "admin" && password === "12345") {
+		if ((username === "wanggan" || "15158132863" || "244098979@qq.com") && password === "12345") {
 			req.session.username = username;
 			res.json({
 				"r": 0,
@@ -44,7 +44,6 @@ module.exports = {
 		console.log("删除后：" + req.session.username);
 		res.redirect('/signin');
 	}
-
 
 
 }

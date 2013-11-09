@@ -1,0 +1,25 @@
+
+<style type="text/css">
+.gotop.button {
+    position: fixed;
+    bottom: 75px;
+    right: 50px;
+    z-index: 999;
+}
+</style>
+
+<a class="ui massive icon button gotop">
+    <i class="up icon"></i>
+</a>
+
+<script type="text/javascript">
+$(function() {
+	var $gotop = $('.gotop');
+    $(window).scroll(function () {
+        $(this).scrollTop() != 0 ? $gotop.fadeIn() : $gotop.fadeOut();
+    });
+    $gotop.bind('mousedown',function () {
+    	$('body,html').animate({scrollTop:0}, 400);
+	});
+});
+</script>
