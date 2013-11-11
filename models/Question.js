@@ -5,13 +5,18 @@ var mongoose = require('mongoose'),
 /**
  * title 问题标题
  * content 问题详细内容
- * createTime 
+ * author 问题作者
+ * topics 问题所属的话题，可以有多个
+ * answerCounter 问题回答个数
+ * viewCounter 问题被查看的次数
+ * createTime 问题创建时间
+ * updateTime 问题最后更新时间
  */
 var QuestionSchema = new Schema({
 	title: String,
 	content: String,
 	author: Schema.Types.ObjectId,
-	tags: Array,
+	topics: Array,
 	answerCounter: Number,
 	viewCounter: Number,
 	createTime: {
