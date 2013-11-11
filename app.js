@@ -6,15 +6,20 @@ var express = require('express'),
 	path = require('path'),
 	mongoose = require('mongoose'),
 	config = require('./config'),
-	routes = require('./routes');
+	routes = require('./routes/routes');
 
-// 数据库连接
-mongoose.connect('mongodb://' + config.MONGODB_IP + '/' + config.MONGODB_DATABASE_NAME, function(err) {
+// connect to local mongodb database
+mongoose.connect('mongodb://' + config.MONGODB_IP + ':' + config.MONGODB_PORT + '/' + config.MONGODB_DATABASE_NAME, function(err) {
 	if (!err) {
 		console.log('【日志】连接到数据库：' + config.MONGODB_DATABASE_NAME);
 	} else {
 		throw err;
 	}
+});
+
+//attach lister to connected event
+mongoose.connection.once('connected', function() {
+	console.log("Connected to database")
 });
 
 var app = express();
@@ -24,7 +29,7 @@ app.set('view engine', 'html');
 // 所有环境
 app.set('port', process.env.PORT || config.WEB_SERVER_PORT);
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.favicon());
+app.use(express.favicon(__dirname + '/public/icon/favicon.ico'));
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());

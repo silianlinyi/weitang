@@ -1,3 +1,11 @@
+var crypto = require('crypto');
+
+function md5 (text) {
+	return crypto.createHash('md5').update(text).digest('hex');
+};
+
+var User = require('../models/User');
+
 module.exports = {
 
 	/**
@@ -20,19 +28,33 @@ module.exports = {
 		var username = req.body.username,
 			password = req.body.password;
 
-		if ((username === "wanggan" || "15158132863" || "244098979@qq.com") && password === "12345") {
-			req.session.username = username;
-			res.json({
-				"r": 0,
-				"msg": "登录成功"
-			});
-		} else {
-			res.json({
-				"r": 1,
-				"errcode": 1000,
-				"msg": "用户名或密码错误"
-			});
-		}
+		User.findOne({
+			username: username,
+			password: md5(password)
+		}, function(err, doc) {
+			if (err) {
+				res.json({
+					"r": 1,
+					"errcode": 2002,
+					"msg": "服务器错误，登录失败"
+				});
+				return;
+			}
+
+			if ( !! doc) {
+				req.session.username = doc.username;
+				res.json({
+					"r": 0,
+				    "msg": "登录成功"
+				});
+			} else {
+				res.json({
+					"r": 1,
+				    "errcode": 1000,
+				    "msg": "用户名或密码错误"
+				});
+			}
+		});
 	},
 
 	/**
@@ -43,6 +65,76 @@ module.exports = {
 		delete req.session.username;
 		console.log("删除后：" + req.session.username);
 		res.redirect('/signin');
+	},
+
+	/**
+	 * 注册操作
+	 */
+	signup: function(req, res) {
+		var username = req.body.username,
+			password = req.body.password,
+			rePassword = req.body.rePassword;
+
+		if(!username || !password || !rePassword) {
+			res.json({
+				"r": 1,
+				"errcode": 1001,
+				"msg": "注册信息不完整"
+			});
+		} else if(password !== rePassword) {
+			res.json({
+				"r": 1,
+				"errcode": 1002,
+				"msg": "两次输入的密码不一致"
+			});
+		} else {
+			User.findOne({
+				username: username
+			}, function(err, doc) {
+				if(err) {
+					res.json({
+						"r": 1,
+						"errcode": 2000,
+						"msg": "服务器错误"
+					});
+					return;
+				} else {
+					if(!!doc) {
+						res.json({
+							"r": 1,
+							"errcode": 1003,
+							"msg": "该用户名已经被注册"
+						});
+						return;
+					} else {
+						var user = new User({
+							username: username,
+							password: md5(password)
+						});
+
+						user.save(function(err) {
+							if(err) {
+								res.json({
+									"r": 1,
+									"errcode": 2001,
+									"msg": "服务器错误，注册失败"
+								});
+								return;
+							} else {
+								req.session.username = username;
+								res.json({
+									"r": 0,
+									"msg": "注册成功"
+								});
+								return;
+							}
+						});
+					}
+				}
+			});	
+
+		}
+
 	}
 
 

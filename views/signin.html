@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title>微糖-分享知识，分享快乐</title>
     <meta name="description" content="">
     
@@ -20,6 +20,20 @@
 
     <script src="/lib/jquery.min.js"></script>
     <script src="/lib/jquery.onepage-scroll.min.js"></script>
+    <script>
+        $(function() {
+            var $main = $('.main');
+            $main.onepage_scroll({
+                sectionContainer: "section",
+                animationTime: 800,
+                responsiveFallback: 600,
+                pagination: true,
+                updateURL: false
+            });
+
+            //$main.moveDown();
+        });
+    </script>
 </head>
 <body>
 
@@ -34,21 +48,21 @@
                     <div class="field">
                         <label>用户名</label>
                         <div class="ui left labeled icon input">
-                            <input type="text" placeholder="用户名/手机/邮箱" id="username">
+                            <input type="text" placeholder="用户名/手机/邮箱" class="username">
                             <i class="user icon"></i>
                         </div>
                     </div>
                     <div class="field">
                         <label>密码</label>
                         <div class="ui left labeled icon input">
-                            <input type="password" placeholder="密码" id="password">
+                            <input type="password" placeholder="密码" class="password">
                             <i class="lock icon"></i>
                         </div>
                     </div>
-                    <div class="ui small warning message" id="warning">
+                    <div class="ui small warning message">
                         <i class="icon attention"></i>请输入用户名
                     </div>
-                    <div class="ui green submit button" id="loginBtn">
+                    <div class="ui green submit button signin">
                         登&nbsp;&nbsp;&nbsp;录
                     </div>
                 </div>
@@ -56,7 +70,41 @@
         </section>
         <section class="page2">
             <div class="page_container">
-                
+                <img src="/img/zaiyiqi.png" class="zaiyiqi">
+                <div class="huge green ui labeled icon button signup">
+                    <i class="signup icon"></i>
+                    注  册
+                </div>
+                <div class="ui form segment">
+                    <h3 class="ui header">帐号注册</h3>
+                    <div class="field">
+                        <label>用户名</label>
+                        <div class="ui left labeled icon input">
+                            <input type="text" placeholder="用户名/手机/邮箱" class="username">
+                            <i class="user icon"></i>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>密码</label>
+                        <div class="ui left labeled icon input">
+                            <input type="password" placeholder="密码" class="password">
+                            <i class="lock icon"></i>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>确认密码</label>
+                        <div class="ui left labeled icon input">
+                            <input type="password" placeholder="密码" class="rePassword">
+                            <i class="lock icon"></i>
+                        </div>
+                    </div>
+                    <div class="ui small warning message">
+                        <i class="icon attention"></i>
+                    </div>
+                    <div class="ui blue submit button signup">
+                        注&nbsp;&nbsp;&nbsp;册
+                    </div>
+                </div>
             </div>
         </section>
         <section class="page3">
@@ -65,6 +113,7 @@
             </div>
         </section>
     </div>
+
     
     <script src="/seajs/sea.js" data-config="/js/config" data-main="/js/signin" ></script>
 </body>

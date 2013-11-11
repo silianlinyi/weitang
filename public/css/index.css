@@ -25,3 +25,6 @@
 .basic.segment a.header:hover {
 	text-decoration: underline;
 }
+.basic.segment a.seeall {
+	color: rgb(103, 93, 179);
+}

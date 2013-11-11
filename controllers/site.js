@@ -1,3 +1,6 @@
+var User = require('../models/User'),
+	Question = require('../models/Question');
+
 module.exports = {
 
 	/**
@@ -20,8 +23,7 @@ module.exports = {
 	},
 
 	question: function(req, res) {
-		var id = _id = req.param('id');
-		console.log(id);
+		console.log(req.param('_id'));
 		res.render('question');
 	},
 

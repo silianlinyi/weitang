@@ -2,6 +2,12 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+.wrapper {
+    height: 100% !important;
+    margin: 0 auto; 
+    overflow: hidden;
+}
+
 .main section {
     overflow: hidden;
 }
@@ -9,10 +15,9 @@ body {
 .main section .page_container {
     width: 980px;
     height: 500px;
-    position: absolute;
-    left: 50%;
+    position: relative;
     top: 10%;
-    margin-left: -490px;
+    margin: 0 auto;
 }
 
 .main section.page1 {
@@ -36,8 +41,24 @@ body {
     top: 15%;
     right: 8%;
 }
+
 i.icon.logo {
     width: 141px;
     height: 49px;
     background: url('/img/login-logo.png');
+}
+.page2 .labeled.signup.button {
+    position: absolute;
+    right: 200px;
+    top: 120px;
+}
+
+.page2 .zaiyiqi {
+    position: absolute;
+    left: 140px;
+    top: 100px;
+}
+
+.page2 .form {
+    display: none;
 }
