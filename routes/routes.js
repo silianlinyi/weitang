@@ -3,9 +3,9 @@ var site = require('../controllers/site'),
 
 module.exports = function(app) {
 	
-	app.get('/signin', site.signin);
-	app.get('/', api.userAuth, site.index);
-	app.get('/index', api.userAuth, site.index);
+	app.get('/index', site.index);
+	app.get('/', api.userAuth, site.home);
+	app.get('/home', api.userAuth, site.home);
 	app.get('/topic', api.userAuth, site.topic);
 	app.get('/explore', api.userAuth, site.explore);
 	app.get('/question/:_id', site.question);

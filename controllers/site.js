@@ -4,14 +4,14 @@ var User = require('../models/User'),
 module.exports = {
 
 	/**
-	 * Get /signin
+	 * Get /index
 	 */
-	signin: function(req, res) {
-		res.render('signin');
-	},
-
 	index: function(req, res) {
 		res.render('index');
+	},
+
+	home: function(req, res) {
+		res.render('home');
 	},
 
 	topic: function(req, res) {

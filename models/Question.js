@@ -1,8 +1,8 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
-
 /**
+ * _id MongoDB默认生成的唯一标识
  * title 问题标题
  * content 问题详细内容
  * author 问题作者
@@ -35,13 +35,12 @@ QuestionSchema.methods = {
 	}
 };
 
-// Adding static methods to a Model is simple as well
+// Adding static methods to a Model
 QuestionSchema.statics = {
 	sayWorld: function() {
 		console.log('world');
 	}
 };
 
-
-//compile schema to model
+// compile schema to model
 module.exports = mongoose.model('Question', QuestionSchema, 'wt_questions');

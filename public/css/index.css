@@ -1,30 +1,68 @@
-.ui.basic.segment {
-	padding: 0;
+body {
+    -webkit-font-smoothing: antialiased;
 }
-.basic.segment .header .content {
-	font-size: 16px;
+
+.wrapper {
+    height: 100% !important;
+    margin: 0 auto; 
+    overflow: hidden;
 }
-.basic.segment .sub.header {
-	margin-top: 8px;
-	font-size: 12px !important;
+
+.main section {
+    overflow: hidden;
 }
-.basic.segment .sub.header a {
-	font-size: 12px;
+
+.main section .page_container {
+    width: 980px;
+    height: 500px;
+    position: relative;
+    top: 10%;
+    margin: 0 auto;
 }
-.basic.segment .text.menu {
-	margin: 0;
+
+.main section.page1 {
+    background: url('/img/bg2.jpg') no-repeat center center;
+    background-size: cover;
 }
-.basic.segment .text.menu a {
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 14px;
+
+.main section.page2 {
+    background: url('/img/bg1.jpg') no-repeat center center;
+    background-size: cover;
 }
-.basic.segment a.header {
-	color: #00B5AD !important;
-	text-decoration: none;
+
+.main section.page3 {
+    background: url('/img/bg3.jpg') no-repeat center center;
+    background-size: cover;
 }
-.basic.segment a.header:hover {
-	text-decoration: underline;
+
+.ui.form {
+    width: 420px;
+    position: absolute;
+    top: 15%;
+    right: 8%;
 }
-.basic.segment a.seeall {
-	color: rgb(103, 93, 179);
+
+.page2 .ui.form {
+    right: 4%;
+}
+
+i.icon.logo {
+    width: 141px;
+    height: 49px;
+    background: url('/img/login-logo.png');
+}
+.page2 .labeled.signup.button {
+    position: absolute;
+    right: 200px;
+    top: 120px;
+}
+
+.page2 .zaiyiqi {
+    position: absolute;
+    left: 140px;
+    top: 100px;
+}
+
+.page2 .form {
+    display: none;
 }

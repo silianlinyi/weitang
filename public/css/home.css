@@ -1,0 +1,30 @@
+.ui.basic.segment {
+	padding: 0;
+}
+.basic.segment .header .content {
+	font-size: 16px;
+}
+.basic.segment .sub.header {
+	margin-top: 8px;
+	font-size: 12px !important;
+}
+.basic.segment .sub.header a {
+	font-size: 12px;
+}
+.basic.segment .text.menu {
+	margin: 0;
+}
+.basic.segment .text.menu a {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 14px;
+}
+.basic.segment a.header {
+	color: #00B5AD !important;
+	text-decoration: none;
+}
+.basic.segment a.header:hover {
+	text-decoration: underline;
+}
+.basic.segment a.seeall {
+	color: rgb(103, 93, 179);
+}

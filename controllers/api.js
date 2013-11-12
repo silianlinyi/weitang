@@ -17,7 +17,7 @@ module.exports = {
 			next();
 		} else {
 			console.log("【Debug】：用户验证失败");
-			res.render('signin');
+			res.render('index');
 		}
 	},
 
@@ -64,7 +64,7 @@ module.exports = {
 		console.log("删除前：" + req.session.username);
 		delete req.session.username;
 		console.log("删除后：" + req.session.username);
-		res.redirect('/signin');
+		res.redirect('/index');
 	},
 
 	/**

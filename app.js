@@ -11,7 +11,7 @@ var express = require('express'),
 // connect to local mongodb database
 mongoose.connect('mongodb://' + config.MONGODB_IP + ':' + config.MONGODB_PORT + '/' + config.MONGODB_DATABASE_NAME, function(err) {
 	if (!err) {
-		console.log('【日志】连接到数据库：' + config.MONGODB_DATABASE_NAME);
+		//console.log('【日志】连接到数据库：' + config.MONGODB_DATABASE_NAME);
 	} else {
 		throw err;
 	}
@@ -19,7 +19,7 @@ mongoose.connect('mongodb://' + config.MONGODB_IP + ':' + config.MONGODB_PORT + 
 
 //attach lister to connected event
 mongoose.connection.once('connected', function() {
-	console.log("Connected to database")
+	console.log('【日志】连接到数据库：' + config.MONGODB_DATABASE_NAME);
 });
 
 var app = express();
@@ -48,9 +48,9 @@ if ('production' == app.get('env')) {
 	
 }
 
+http.createServer(app).listen(app.get('port'), function() {
+	console.log('【日志】Express server listening on port' + app.get('port'));
+});
+
 // 路由
 routes(app);
-
-http.createServer(app).listen(app.get('port'), function() {
-	console.log('Express server listening on port ' + app.get('port'));
-});
