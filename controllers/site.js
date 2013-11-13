@@ -22,6 +22,10 @@ module.exports = {
 		res.render('explore');
 	},
 
+	ask: function(req, res) {
+		res.render('ask');
+	},
+
 	question: function(req, res) {
 		console.log(req.param('_id'));
 		res.render('question');

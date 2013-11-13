@@ -15,10 +15,16 @@ var mongoose = require('mongoose'),
 var QuestionSchema = new Schema({
 	title: String,
 	content: String,
-	author: Schema.Types.ObjectId,
+	author: String,
 	topics: Array,
-	answerCounter: Number,
-	viewCounter: Number,
+	answerCounter: {
+		type: Number,
+		default: 0
+	},
+	viewCounter: {
+		type: Number,
+		default: 0
+	},
 	createTime: {
 		type: Date,
 		default: Date.now

@@ -9,7 +9,7 @@ module.exports = function(app) {
 	app.get('/topic', api.userAuth, site.topic);
 	app.get('/explore', api.userAuth, site.explore);
 	app.get('/question/:_id', site.question);
-
+	app.get('/ask', site.ask);
 
 
 	
@@ -18,10 +18,12 @@ module.exports = function(app) {
 	app.get('/settings/account', site.account);
 	app.get('/settings/password', site.password);
 
-
-	app.get('/api/logout', api.logout);
-	app.post('/api/login', api.login);
 	app.post('/api/signup', api.signup);
+	app.post('/api/login', api.login);
+	app.get('/api/logout', api.logout);
+	app.post('/api/addQuestion', api.addQuestion);
+	
+	
 
 
 	app.get('/idea', site.idea);

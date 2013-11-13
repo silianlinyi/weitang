@@ -4,7 +4,8 @@ function md5 (text) {
 	return crypto.createHash('md5').update(text).digest('hex');
 };
 
-var User = require('../models/User');
+var User = require('../models/User'),
+	Question = require('../models/Question');
 
 module.exports = {
 
@@ -135,6 +136,38 @@ module.exports = {
 
 		}
 
+	},
+
+	addQuestion: function(req, res) {
+		var body = req.body,
+			title = body.title,
+			content = body.title,
+			author = req.session.username,
+			topics = [];
+
+		var question = new Question({
+			title: title,
+			content: content,
+			author: author,
+			topics: topics
+		});
+
+		question.save(function(err) {
+			if(err) {
+				res.json({
+					"r": 1,
+					"errcode": 2003,
+					"msg": "服务器错误，添加问题失败"
+				});
+				return;
+			} else {
+				res.json({
+					"r": 0,
+					"msg": "添加问题成功"
+				});
+				return;
+			}
+		});
 	}
 
 
