@@ -26,9 +26,7 @@ define(function(require, exports, module) {
 			success: function(data, textStatus, jqXHR) {
 				console.log(data);
 				if (data.r === 0) {
-					
-				} else {
-					
+					alert(data.msg);
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {

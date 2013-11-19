@@ -27,7 +27,6 @@ module.exports = {
 	},
 
 	question: function(req, res) {
-		console.log(req.param('_id'));
 		res.render('question');
 	},
 

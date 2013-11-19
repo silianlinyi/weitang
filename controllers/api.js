@@ -1,3 +1,5 @@
+var mongoose = require('mongoose'),
+	ObjectId = mongoose.Types.ObjectId;
 var crypto = require('crypto');
 
 function md5 (text) {
@@ -138,10 +140,13 @@ module.exports = {
 
 	},
 
+	/**
+	 * 添加一个问题
+	 */
 	addQuestion: function(req, res) {
 		var body = req.body,
 			title = body.title,
-			content = body.title,
+			content = body.content,
 			author = req.session.username,
 			topics = [];
 
@@ -168,6 +173,41 @@ module.exports = {
 				return;
 			}
 		});
+	},
+
+	/**
+	 * 从数据库中查找某个问题
+	 */
+	getQuestion: function(req, res) {
+		var _id = req.param('_id');
+		console.log(_id);
+
+		Question.findOne({
+			_id: new ObjectId(_id)
+		}, function(err, doc) {
+			if(err) {
+				res.json({
+					"r": 1,
+					"errcode": 2004,
+					"msg": "服务器错误，查找问题失败"
+				});
+				return;
+			}
+
+			if(!!doc) {
+				res.json({
+					"r": 0,
+					"msg": "查找问题成功",
+					"doc": doc
+				});
+			} else {
+				res.json({
+					"r": 1,
+					"errcode": 2005,
+					"msg": "没有找到该问题，404"
+				});
+			}
+		})
 	}
 
 

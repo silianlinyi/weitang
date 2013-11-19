@@ -8,7 +8,7 @@ module.exports = function(app) {
 	app.get('/home', api.userAuth, site.home);
 	app.get('/topic', api.userAuth, site.topic);
 	app.get('/explore', api.userAuth, site.explore);
-	app.get('/question/:_id', site.question);
+	app.get('/question', site.question);
 	app.get('/ask', site.ask);
 
 
@@ -22,6 +22,7 @@ module.exports = function(app) {
 	app.post('/api/login', api.login);
 	app.get('/api/logout', api.logout);
 	app.post('/api/addQuestion', api.addQuestion);
+	app.get('/api/question/:_id', api.getQuestion);
 	
 	
 
