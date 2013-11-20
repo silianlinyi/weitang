@@ -158,7 +158,6 @@
 
     // 遍历集合中的元素，返回第一个能够通过处理器验证的元素
     _.find = _.detect = function(obj, iterator, context) {
-        debugger
         // result存放第一个能够通过验证的元素
         var result;
         any(obj, function(value, index, list) {
@@ -613,18 +612,23 @@
         return range;
     };
 
-    // Function (ahem) Functions
+    // 函数相关方法
     // ------------------
-    // Reusable constructor function for prototype setting.
+    // 创建一个用于设置prototype的公共函数对象
     var ctor = function() {};
 
-    // Create a function bound to a given object (assigning `this`, and arguments,
-    // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
-    // available.
+    // 为一个函数绑定执行上下文，任何情况下调用该函数，函数中的this均指向context对象
+    // 绑定上下文时，可以同时给函数传递调用形参
+    // 如果宿主环境支持，则优先调用Function.bind方法
     _.bind = function(func, context) {
         var args, bound;
-        if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
+        // 优先调用宿主环境提供的bind方法
+        if(nativeBind && func.bind === nativeBind) {
+            return nativeBind.apply(func, slice.call(arguments, 1));
+        }
+        // 第一个参数func必须是一个Function类型变量，如果不是，抛出TypeError
         if (!_.isFunction(func)) throw new TypeError;
+        // args变量存储了bind方法第三个开始的参数列表，每次调用都将传递给func函数
         args = slice.call(arguments, 2);
         return bound = function() {
             if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
@@ -667,11 +671,10 @@
         };
     };
 
-    // Delays a function for the given number of milliseconds, and then calls
-    // it with the arguments supplied.
+    // 延迟执行一个函数，wait单位为毫秒（ms），第3个参数开始将被依次传递给执行函数
     _.delay = function(func, wait) {
         var args = slice.call(arguments, 2);
-        return setTimeout(function() {
+        return setTimeout(function() { // 返回定时器的句柄
             return func.apply(null, args);
         }, wait);
     };
@@ -768,9 +771,11 @@
         };
     };
 
-    // Returns a function that is the composition of a list of functions, each
-    // consuming the return value of the function that follows.
+    // 将多个函数组合在一起，按照参数传递的顺序，最后一个函数首先得到执行，然后将返回值作为参数传递给上一个函数，以此类推
+    // _.compose(A, B, C);等同于A(B(C()));
+    // 该方法的缺点在于被关联的函数处理的参数数量只能有一个，如果需要传递多个参数，可以通过Array或Object复合数据类型进行组装
     _.compose = function() {
+        // 获取函数列表，所有参数均为Function类型
         var funcs = arguments;
         return function() {
             var args = arguments;
@@ -790,85 +795,90 @@
         };
     };
 
-    // Object Functions
+    // 对象相关方法
     // ----------------
-    // Retrieve the names of an object's properties.
-    // Delegates to **ECMAScript 5**'s native `Object.keys`
-    _.keys = nativeKeys ||
-    function(obj) {
+    // 获取一个对象的属性名（键）列表（不包含原型链中的属性）
+    // 如果宿主环境支持，则优先使用原生的Object.keys方法
+    _.keys = nativeKeys || function(obj) {
+        // 如果传递了一个非法的对象，则抛出TypeError
         if (obj !== Object(obj)) throw new TypeError('Invalid object');
-        var keys = [];
-        for (var key in obj) if (_.has(obj, key)) keys.push(key);
+        var keys = []; // 用于保存一个对象中所有的键
+        for (var key in obj) if (_.has(obj, key)) keys.push(key); // 遍历对象，如果是对象的自有属性，则将该属性放入keys数组
         return keys;
     };
 
-    // Retrieve the values of an object's properties.
+    // 返回一个对象中所有属性的值列表（不包含原型链中的属性）
     _.values = function(obj) {
-        var keys = _.keys(obj);
-        var length = keys.length;
-        var values = new Array(length);
-        for (var i = 0; i < length; i++) {
+        var keys = _.keys(obj); // 获取该对象中所有的属性
+        var length = keys.length; // 属性列表的长度
+        var values = new Array(length); // 保存值列表的数组
+        for (var i = 0; i < length; i++) { // 去除对象中所有的值，并将每次取出的值保存到values数组
             values[i] = obj[keys[i]];
         }
         return values;
     };
 
-    // Convert an object into a list of `[key, value]` pairs.
+    // 将一个对象转换成一个`[键, 值]`对列表
     _.pairs = function(obj) {
-        var keys = _.keys(obj);
-        var length = keys.length;
-        var pairs = new Array(length);
+        var keys = _.keys(obj); // 获取一个对象中的所有键
+        var length = keys.length; // 键的长度
+        var pairs = new Array(length); // 生成一个长度等于键长度的数组
         for (var i = 0; i < length; i++) {
             pairs[i] = [keys[i], obj[keys[i]]];
         }
         return pairs;
     };
 
-    // Invert the keys and values of an object. The values must be serializable.
+    // 返回一个对象的拷贝，所有的键都变成了值，所有的值都变成了键。被拷贝对象的所有的值必须是唯一且可序列化的。
     _.invert = function(obj) {
-        var result = {};
-        var keys = _.keys(obj);
+        var result = {}; // 生成一个新对象，用于保存返回值
+        var keys = _.keys(obj); // 获取一个对象中所有的键
         for (var i = 0, length = keys.length; i < length; i++) {
             result[obj[keys[i]]] = keys[i];
         }
         return result;
     };
 
-    // Return a sorted list of the function names available on the object.
-    // Aliased as `methods`
+    // 获取一个对象中所有属性值为Function类型的key列表，并按key名进行排序（包含原型链中的属性）
     _.functions = _.methods = function(obj) {
         var names = [];
         for (var key in obj) {
-            if (_.isFunction(obj[key])) names.push(key);
+            if (_.isFunction(obj[key])) names.push(key); // 如果属性值为Function类型，则将该属性放入names数组
         }
         return names.sort();
     };
 
-    // Extend a given object with all the properties in passed-in object(s).
-    _.extend = function(obj) {
+    // 将一个或多个对象的属性（包含原型链中的属性），复制到destination对象，如果存在同名属性则覆盖
+    _.extend = function(destination) {
+        // 遍历实际参数中除第一个参数之外的所有对象
         each(slice.call(arguments, 1), function(source) {
             if (source) {
+                // 每次遍历一个对象，将对象中的全部属性复制或覆盖到destination对象
                 for (var prop in source) {
-                    obj[prop] = source[prop];
+                    destination[prop] = source[prop];
                 }
             }
         });
-        return obj;
+        return destination; // 返回第一个参数对象
     };
 
-    // Return a copy of the object only containing the whitelisted properties.
+    // 返回一个新对象，并从obj中复制指定的属性到新对对象中
+    // 第2个参数开始为指定的需要复制的属性名（支持多个参数和深层数组）
     _.pick = function(obj) {
-        var copy = {};
+        var copy = {}; // 创建一个新的对象，用于存放复制的指定属性
+        // slice.call(arguments, 1)该语句作用是：从第二个参数开始合并为一个存放属性名列表的数组
+        // 等价于var keys = [].concat(slice.call(arguments, 1));
         var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
+        // 遍历属性名列表，如果obj中存在该属性，则将其复制到copy对象中
         each(keys, function(key) {
             if (key in obj) copy[key] = obj[key];
         });
-        return copy;
+        return copy; // 返回复制结果
     };
 
     // Return a copy of the object without the blacklisted properties.
     _.omit = function(obj) {
-        var copy = {};
+        var copy = {}; // 创建一个新对象，用于保存需要复制的属性
         var keys = concat.apply(ArrayProto, slice.call(arguments, 1));
         for (var key in obj) {
             if (!_.contains(keys, key)) copy[key] = obj[key];
@@ -876,22 +886,25 @@
         return copy;
     };
 
-    // Fill in a given object with default properties.
+    // 给对象obj指定默认值
     _.defaults = function(obj) {
+        // slice.call(arguments, 1)语句的左右是从第二个参数开始合并成一个数组
+        // 遍历数组
         each(slice.call(arguments, 1), function(source) {
             if (source) {
+                // 遍历每个对象中的所有属性
                 for (var prop in source) {
-                    if (obj[prop] === void 0) obj[prop] = source[prop];
+                    if (obj[prop] === void 0) obj[prop] = source[prop]; // 如果obj对象不存在该属性，则将该属性复制到obj对象中
                 }
             }
         });
         return obj;
     };
 
-    // Create a (shallow-cloned) duplicate of an object.
+    // 浅度拷贝一个对象
     _.clone = function(obj) {
-        if (!_.isObject(obj)) return obj;
-        return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+        if (!_.isObject(obj)) return obj; // 如果传递的不是一个对象，则直接返回传递的参数
+        return _.isArray(obj) ? obj.slice() : _.extend({}, obj); // 如果obj是一个数组对象，则返回一个新数组
     };
 
     // Invokes interceptor with the obj, and then returns obj.
@@ -996,33 +1009,40 @@
         return eq(a, b, [], []);
     };
 
-    // Is a given array, string, or object empty?
-    // An "empty" object has no enumerable own-properties.
+    // 检查数据是否为空，包含'',false,0,null,undefined,NaN,空数组（数组长度为0）和
+    // 空对象（对象本身没有任何自有属性）
     _.isEmpty = function(obj) {
         if (obj == null) return true;
-        if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
-        for (var key in obj) if (_.has(obj, key)) return false;
+        // 如果obj为数组或字符串，则根据obj.length检查数组或字符串长度是否为0
+        if(_.isArray(obj) || _.isString(obj)) {
+            return obj.length === 0;
+        }
+        for(var key in obj) {
+            if(_.has(obj, key)) {
+                return false; // obj是一个对象时，如果该对象有自有属性，则不是一个空对象，返回false
+            }
+        }
+        // 所有数据都没有通过验证，则认为是一个空数据
         return true;
     };
 
-    // Is a given value a DOM element?
+    // 验证一个对象是否是一个DOM元素
     _.isElement = function(obj) {
         return !!(obj && obj.nodeType === 1);
     };
 
-    // Is a given value an array?
-    // Delegates to ECMA5's native Array.isArray
-    _.isArray = nativeIsArray ||
-    function(obj) {
+    // 验证一个对象的数据类型是否是一个数组类型？
+    // 如果宿主环境支持，则优先调用Array.isArray方法
+    _.isArray = nativeIsArray || function(obj) {
         return toString.call(obj) == '[object Array]';
     };
 
-    // Is a given variable an object?
+    // 判断给出的变量是否是一个对象
     _.isObject = function(obj) {
         return obj === Object(obj);
     };
 
-    // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
+    // 添加一些类型判断方法：isArguments, isFunction, isString, isNumber, isDate, isRegExp.
     each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
         _['is' + name] = function(obj) {
             return toString.call(obj) == '[object ' + name + ']';
@@ -1054,8 +1074,9 @@
         return _.isNumber(obj) && obj != +obj;
     };
 
-    // Is a given value a boolean?
+    // 检查数据是否为Boolean类型
     _.isBoolean = function(obj) {
+        // 支持字面量和对象形式的Boolean数据
         return obj === true || obj === false || toString.call(obj) == '[object Boolean]';
     };
 
@@ -1069,34 +1090,33 @@
         return obj === void 0;
     };
 
-    // Shortcut function for checking if an object has a given property directly
-    // on itself (in other words, not on a prototype).
+    // 检查一个属性是否属于对象本省，而非原型链中
     _.has = function(obj, key) {
         return hasOwnProperty.call(obj, key);
     };
 
-    // Utility Functions
+    // 工具函数
     // -----------------
-    // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
-    // previous owner. Returns a reference to the Underscore object.
+    // 放弃_(下划线)命名的Underscore对象，并返回Underscore对象，一般用于避免命名冲突或规范命名方式
     _.noConflict = function() {
         root._ = previousUnderscore;
         return this;
     };
 
-    // Keep the identity function around for default iterators.
+    // 返回与参数相同的值，一般用于将一个数据的获取方式转换为函数获取方式（内部用于构建方法时作为默认处理器函数）
     _.identity = function(value) {
         return value;
     };
 
-    // Run a function **n** times.
+    // 使指定的函数迭代执行n次，并且将每次执行的返回值保存到一个数组
     _.times = function(n, iterator, context) {
         var accum = Array(Math.max(0, n));
         for (var i = 0; i < n; i++) accum[i] = iterator.call(context, i);
         return accum;
     };
 
-    // Return a random integer between min and max (inclusive).
+    // 返回一个随机整数between min and max
+    // 如果只传递了一个参数，那么返回0到该参数之间的一个随机整数
     _.random = function(min, max) {
         if (max == null) {
             max = min;
