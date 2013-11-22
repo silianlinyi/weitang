@@ -3,28 +3,49 @@ var site = require('../controllers/site'),
 
 module.exports = function(app) {
 	
+	/**
+	 * 页面路由
+	 */
 	app.get('/index', site.index);
 	app.get('/', api.userAuth, site.home);
-	app.get('/home', api.userAuth, site.home);
+	app.get('/home', site.home);
 	app.get('/topic', api.userAuth, site.topic);
 	app.get('/explore', api.userAuth, site.explore);
 	app.get('/question', site.question);
-	app.get('/ask', site.ask);
+	app.get('/ask', api.userAuth, site.ask);
 
+	/**
+	 * 用户相关路由
+	 */
+	app.post('/api/signup', api.signup);
+	app.post('/api/login', api.login);
+	app.get('/api/logout', api.logout);
 
-	
-
+	/**
+	 * 设置相关路由
+	 */
 	app.get('/settings/*', api.userAuth);
 	app.get('/settings/account', site.account);
 	app.get('/settings/password', site.password);
 
-	app.post('/api/signup', api.signup);
-	app.post('/api/login', api.login);
-	app.get('/api/logout', api.logout);
-	app.post('/api/addQuestion', api.addQuestion);
-	app.get('/api/question/:_id', api.getQuestion);
+	/**
+	 * 问题相关路由
+	 */
+	app.get('/api/question/*', api.userAuth);
+	app.post('/api/question/addQuestion', api.addQuestion);				// 添加一个问题
+
+	app.get('/api/question/findQuestionById', api.findQuestionById);	// GET方式，通过_id来查找某个问题
+	app.post('/api/question/findQuestionById', api.findQuestionById);	// POST方法，通过_id来查找某个问题
+
+	app.get('/api/question/findQuestionsByPage', api.findQuestionsByPage);  // GET方式，分页查找问题
+	app.post('/api/question/findQuestionsByPage', api.findQuestionsByPage); // POST方式，分页查找问题
+
+	app.get('/api/question/searchQuestionsByTitle', api.searchQuestionsByTitle);
+	app.get('/api/question/searchQuestionsByContent', api.searchQuestionsByContent);
+
 	
-	
+
+
 
 
 	app.get('/idea', site.idea);

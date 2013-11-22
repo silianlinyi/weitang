@@ -4,7 +4,6 @@ define(function(require, exports, module) {
 
 	// 登录
 	// -------------------------------------------
-
 	var $signinBtn = $('.signin.button'),
 		$username = $('.page1 .username'),
 		$password = $('.page1 .password'),
@@ -136,5 +135,6 @@ define(function(require, exports, module) {
 	});
 
 
+	
 
 });

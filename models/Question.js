@@ -30,7 +30,8 @@ var QuestionSchema = new Schema({
 		default: Date.now
 	},
 	updateTime: {
-		type: Date
+		type: Date,
+		default: Date.now
 	}
 });
 

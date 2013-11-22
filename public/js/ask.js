@@ -15,7 +15,7 @@ define(function(require, exports, module) {
 		}
 
 		$.ajax({
-			url: '/api/addQuestion',
+			url: '/api/question/addQuestion',
 			type: 'POST',
 			data: {
 				title: title,
