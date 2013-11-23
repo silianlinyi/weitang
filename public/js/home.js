@@ -10,7 +10,7 @@ define(function(require, exports, module) {
 	var questionTemp = 	'<h3 class="ui teal header">' +
 							'<img class="ui avatar left floated image" src="/img/photo2.jpg">' +
 							'<div class="content">' +
-								'<a href="/question?_id=<%= _id %>" class="header"><%= title %></a>' +
+								'<a href="/question?_id=<%= _id %>" target="_blank" class="header"><%= title %></a>' +
 								'<div class="sub header">' +
 									'<a class="ui label">NodeJS</a>' +
 									'<a class="ui label">NodeJS</a>' +
@@ -18,21 +18,21 @@ define(function(require, exports, module) {
 								'</div>' +
 							'</div>' +
 						'</h3>' +
-						'<p><%= content %><a href="/question?_id=<%= _id %>" class="seeall">查看全部</a></p>' +
+						'<p><%= content %><a href="/question?_id=<%= _id %>" target="_blank" class="seeall">查看全部</a></p>' +
 						'<div class="ui text menu">' +
-							'<a href="" class="item">' +
+							'<div class="item">' +
 								'<i class="comment icon"></i><%= answerCounter %>个回答' +
-							'</a>' +
-							'<a href="" class="item">' +
+							'</div>' +
+							'<div class="item">' +
 								'<i class="unhide icon"></i><%= viewCounter %>次查看' +
-							'</a>' +
-							'<a href="" class="item">' +
+							'</div>' +
+							'<a href="javascript:void(0);" class="item heart">' +
 								'<i class="heart red icon"></i>关注' +
 							'</a>' +
-							'<a href="" class="item">' +
+							'<a href="javascript:void(0);" class="item bookmark">' +
 								'<i class="bookmark red icon"></i>收藏' +
 							'</a>' +
-							'<a href="" class="item">' +
+							'<a href="javascript:void(0);" class="item share">' +
 								'<i class="share sign red icon"></i>分享' +
 							'</a>' +
 						'</div>' +
@@ -86,7 +86,9 @@ define(function(require, exports, module) {
 		className: "ui basic segment",
 		template: questionTemp,
 		events : {
-			
+			"click .heart": "heart",
+			"click .bookmark": "bookmark",
+			"click .share": "share"
 		},
 		
 		initialize: function() {
@@ -98,6 +100,19 @@ define(function(require, exports, module) {
 			this.$el.html(tmpl(this.model.toJSON()));
 			return this;
 		},
+
+		heart: function() {
+			// TODO
+			
+		},
+
+		bookmark: function() {
+			// TODO
+		},
+
+		share: function() {
+			// TODO
+		}
 	});
 
 
@@ -154,8 +169,6 @@ define(function(require, exports, module) {
 				success : function(data, textStatus, jqXHR) {
 					if(data.r === 0) {
 						succCall(data);
-					} else {
-						failCall();
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown) {
@@ -174,15 +187,13 @@ define(function(require, exports, module) {
 			me.findQuestionsByPage(function(data) {
 				Log(data);
 				var len = data.questionList.length;
-				if(len === 0) {
-					alert("没有一个问题");
-				} else if(len < pageSize) {
+				if(len > 0 && len < pageSize) {
 					me.questionList.add(data.questionList);
-					$loadMore.hide();
 				} else {
 					me.questionList.add(data.questionList);
 					me.queryConfig.pageStart++;
 					me.queryConfig.createTime = data.questionList[len - 1].createTime;
+					$loadMore.show();
 				}
 			});
 		},
@@ -199,7 +210,7 @@ define(function(require, exports, module) {
 				Log(data);
 				var len = data.questionList.length;
 				if(len === 0) {
-					alert("没有一个问题");
+					$loadMore.html('无更多问题');
 				} else if(len < pageSize) {
 					me.questionList.add(data.questionList);
 					me.queryConfig.pageStart++;

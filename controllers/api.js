@@ -12,6 +12,7 @@ var User = require('../models/User'),
 module.exports = {
 
 	/**
+	 * @method userAuth
 	 * 用户认证
 	 * session对象中有_id属性，说明用户已经登录，验证通过，否则说明用户未登录
 	 */
@@ -26,11 +27,12 @@ module.exports = {
 	},
 
 	/**
-	 * 登录操作
+	 * @method login
+	 * 登录
 	 */
 	login: function(req, res) {
-		var username = req.body.username,
-			password = req.body.password;
+		var username = req.param('username'),
+			password = req.param('password');
 
 		User.findOne({
 			username: username,
@@ -48,7 +50,7 @@ module.exports = {
 			if ( !! doc) {
 				// 用户登录成功后，将用户的_id属性添加到session对象
 				req.session._id = doc._id;
-				console.log("登录成功 req.session._id = " + req.session._id);
+				console.log("【日志】：登录成功 req.session._id = " + req.session._id);
 				res.json({
 					"r": 0,
 				    "msg": "登录成功"
@@ -64,23 +66,23 @@ module.exports = {
 	},
 
 	/**
-	 * 退出操作
-	 * 用户主动注销时，将session中的_id属性删除
+	 * @method logout
+	 * 退出
+	 * 用户主动注销时，将session中的_id属性删除，并重定向到登录页面
 	 */
 	logout: function(req, res) {
-		console.log("删除前：" + req.session._id);
 		delete req.session._id;
-		console.log("删除后：" + req.session._id);
 		res.redirect('/index');
 	},
 
 	/**
-	 * 注册操作
+	 * @method signup
+	 * 注册
 	 */
 	signup: function(req, res) {
-		var username = req.body.username,
-			password = req.body.password,
-			rePassword = req.body.rePassword;
+		var username = req.param('username'),
+			password = req.param('password'),
+			rePassword = req.param('rePassword');
 
 		if(!username || !password || !rePassword) {
 			res.json({
@@ -101,8 +103,8 @@ module.exports = {
 				if(err) {
 					res.json({
 						"r": 1,
-						"errcode": 2000,
-						"msg": "服务器错误"
+						"errcode": 2001,
+						"msg": "服务器错误，注册失败"
 					});
 					return;
 				} else {
@@ -118,8 +120,6 @@ module.exports = {
 							username: username,
 							password: md5(password)
 						});
-
-						console.log(user);
 
 						user.save(function(err) {
 							if(err) {
@@ -142,20 +142,18 @@ module.exports = {
 					}
 				}
 			});	
-
 		}
-
 	},
 
 	/**
+	 * @method addQuestion
 	 * 添加一个问题
 	 */
 	addQuestion: function(req, res) {
-		var body = req.body,
-			title = body.title,
-			content = body.content,
+		var title = req.param('title'),
+			content = req.param('content'),
 			author = req.session._id,
-			topics = [];
+			topics = req.param('topics');
 
 		var question = new Question({
 			title: title,
@@ -188,7 +186,6 @@ module.exports = {
 	 */
 	findQuestionById: function(req, res) {
 		var _id = req.param('_id');
-		console.log("findQuestionById _id = " + _id);
 
 		Question.findById(new ObjectId(_id), function(err, doc) {
 			if(err) {
@@ -226,19 +223,15 @@ module.exports = {
 			createTime = req.param('createTime'),
 			query;
 
-		console.log("pageSize = " + pageSize);
-		console.log("pageStart = " + pageStart);
-		console.log("createTime = " + createTime);
-
-		// 如果用户是第一次查询，则根据pageSize返回前10条数据
-		// 如果用户不是第一次查询（pageStart > 0），则根据pageSize和createTime返回10条数据
+		// 如果用户是第一次查询，则根据pageSize返回前pageSize条数据
+		// 如果用户不是第一次查询（pageStart > 0），则根据pageSize和createTime返回pageSize条数据
 		if(pageStart === 0) { // 说明用户是第一次查询
-			console.log("用户是第一次查询");
 			// sort('-createTime')，最新的先返回
 			// sort('createTime'),最早的先返回
+			console.log("【日志】：用户是第一次查询");
 			query = Question.find().sort('-createTime').limit(pageSize);
 		} else { // 说明用户不是第一次查询
-			console.log("说明用户不是第一次查询");
+			console.log("【日志】：用户不是第一次查询");
 			query = Question.find({
 				createTime: { $lt: createTime }
 			}).sort('-createTime').limit(pageSize);
@@ -254,19 +247,11 @@ module.exports = {
 				return;
 			}
 
-			if(docs.length !== 0) {
-				res.json({
-					"r": 0,
-					"msg": "查找问题成功",
-					"questionList": docs
-				});
-			} else {
-				res.json({
-					"r": 1,
-					"errcode": 2005,
-					"msg": "没有找到该问题，404"
-				});
-			}
+			res.json({
+				"r": 0,
+				"msg": "查找问题成功",
+				"questionList": docs
+			});
 		});
 	},
 

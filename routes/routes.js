@@ -8,10 +8,10 @@ module.exports = function(app) {
 	 */
 	app.get('/index', site.index);
 	app.get('/', api.userAuth, site.home);
-	app.get('/home', site.home);
+	app.get('/home', api.userAuth, site.home);
 	app.get('/topic', api.userAuth, site.topic);
 	app.get('/explore', api.userAuth, site.explore);
-	app.get('/question', site.question);
+	app.get('/question', api.userAuth, site.question);
 	app.get('/ask', api.userAuth, site.ask);
 
 	/**
@@ -31,7 +31,8 @@ module.exports = function(app) {
 	/**
 	 * 问题相关路由
 	 */
-	app.get('/api/question/*', api.userAuth);
+	app.get('/api/question/*', api.userAuth);	// 问题相关操作都要添加用户认证
+
 	app.post('/api/question/addQuestion', api.addQuestion);				// 添加一个问题
 
 	app.get('/api/question/findQuestionById', api.findQuestionById);	// GET方式，通过_id来查找某个问题

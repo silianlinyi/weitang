@@ -109,4 +109,7 @@ define(function(require, exports, module) {
 	// 生成一个应用实例
 	new AppView();
 
+	// 关注、收藏、分享按钮popup提示
+	$('.buttons .button').popup();
+
 });

@@ -28,3 +28,6 @@
 .basic.segment a.seeall {
 	color: rgb(103, 93, 179);
 }
+#appHome .loadMore.button {
+	display: none;
+}

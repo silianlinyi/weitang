@@ -12,6 +12,11 @@ define(function(require, exports, module) {
 	$signinBtn.click(function() {
 		var username = $username.val(),
 			password = $password.val();
+		// TODO
+		// 测试模式
+		username = "wanggan";
+		password = "123456";
+
 		if (!username) {
 			$warning.html('<i class="icon attention"></i>请输入用户名').show();
 			return;
@@ -32,7 +37,6 @@ define(function(require, exports, module) {
 			dataType: 'json',
 			timeout: 15000,
 			success: function(data, textStatus, jqXHR) {
-				debugger
 				if (data.r === 0) { // 登录成功
 					if (/index/.test(window.location.href)) {
 						window.location.href = '/';

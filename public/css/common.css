@@ -6,24 +6,23 @@ body {
     color: #555555;
     min-width: 320px;
 }
-
 p {
     font-family: "宋体";
     font-size: 14px;
     line-height: 22px;
 }
-
 .launch.button {
     position: fixed;
-    top: 40%;
+    top: 20%;
     z-index: 500;
     width: 70px;
 }
-
+.launch i {
+    margin-left: -15px;
+}
 .page.grid.mainpage {
     padding-top: 80px;
 }
-
 .footer.list.link {
     display: block;
     text-align: center;

@@ -45,7 +45,7 @@ if ('development' == app.get('env')) {
 
 // 只用于生产环境
 if ('production' == app.get('env')) {
-	
+
 }
 
 http.createServer(app).listen(app.get('port'), function() {

@@ -1,5 +1,5 @@
-<div class="ui teal huge launch right attached button" data-content="点点这里更精彩哦！" data-position="right center" data-variation="inverted">
-    <i class="icon coffee layout"></i>
+<div class="ui teal huge button launch" >
+    <i class="icon large coffee"></i>
 </div>
 
 <div class="ui teal vertical sidebar menu">
@@ -28,9 +28,7 @@
 <script type="text/javascript">
     $(function() {
         var $launch = $('.launch.button');
-        $launch.popup({
-            on: 'hover'
-        });
+        // $launch.popup();
         $launch.on('click', function() {
             $('.ui.sidebar').sidebar('toggle');
         });

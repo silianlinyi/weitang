@@ -15,14 +15,11 @@
             <div class="ui teal button">提问</div>
         </a>
 
-        <a href="/home" class="icon item">
-            <i class="home icon"></i>
-            首页
-        </a>
+        <a href="/home" class="icon item linkHome">问答</a>
 
-        <a href="/topic" class="item">话题</a>
+        <a href="/topic" class="item linkTopic">话题</a>
 
-        <a href="/explore" class="item">发现</a>
+        <a href="/explore" class="item linkExplore">发现</a>
 
         <div class="right menu">
             <div class="ui dropdown item">
@@ -54,5 +51,16 @@
          $('.ui.dropdown').dropdown({
             on: 'hover'
         });
+
+        var href = window.location.href;
+        if(/home/.test(href)) {
+            $('.linkHome').addClass('active');
+        };
+        if(/topic/.test(href)) {
+            $('.linkTopic').addClass('active');
+        }
+        if(/explore/.test(href)) {
+            $('.linkExplore').addClass('active');
+        }
     });
 </script>
