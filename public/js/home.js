@@ -133,7 +133,7 @@ define(function(require, exports, module) {
 			
 			me.queryConfig = {
 				pageStart : 0,
-				pageSize : 3,
+				pageSize : 10,
 				createTime: ""
 			};
 			me.findQuestions();	// 页面初始化时加载10条系统消息
@@ -223,15 +223,6 @@ define(function(require, exports, module) {
 				}
 			})
 		}
-
-		
-
-		
-
-
-
-
-
 
 	});
 

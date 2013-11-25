@@ -50,6 +50,9 @@ module.exports = function(app) {
 
 
 	app.get('/idea', site.idea);
+	app.get('/epic', function(req, res) {
+		res.render('epic');
+	});
 
 	/**
 	 * 404 Page
