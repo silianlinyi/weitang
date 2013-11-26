@@ -32,22 +32,13 @@ module.exports = function(app) {
 	 * 问题相关路由
 	 */
 	app.get('/api/question/*', api.userAuth);	// 问题相关操作都要添加用户认证
-
 	app.post('/api/question/addQuestion', api.addQuestion);				// 添加一个问题
-
 	app.get('/api/question/findQuestionById', api.findQuestionById);	// GET方式，通过_id来查找某个问题
 	app.post('/api/question/findQuestionById', api.findQuestionById);	// POST方法，通过_id来查找某个问题
-
 	app.get('/api/question/findQuestionsByPage', api.findQuestionsByPage);  // GET方式，分页查找问题
 	app.post('/api/question/findQuestionsByPage', api.findQuestionsByPage); // POST方式，分页查找问题
-
-	app.get('/api/question/searchQuestionsByTitle', api.searchQuestionsByTitle);
-	app.get('/api/question/searchQuestionsByContent', api.searchQuestionsByContent);
-
-	
-
-
-
+	app.get('/api/question/searchQuestionsByTitle', api.searchQuestionsByTitle); // 通过问题标题关键字搜索问题
+	app.get('/api/question/searchQuestionsByContent', api.searchQuestionsByContent); // 通过问题内容关键字搜索问题
 
 	app.get('/idea', site.idea);
 	app.get('/epic', function(req, res) {

@@ -1,0 +1,22 @@
+<div class="ui vertical pointing menu">
+    <a class="item settingAccount" href="/settings/account">
+        <i class="user icon"></i> 帐号设置
+    </a>
+    <a class="item settingPass" href="/settings/password">
+        <i class="unlock alternate icon"></i> 重置密码
+    </a>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        var href = window.location.href;
+
+        if(/account/.test(href)) {
+            $('.settingAccount').addClass('active');
+        }
+
+        if(/password/.test(href)) {
+            $('.settingPass').addClass('active');
+        }
+    });
+</script>

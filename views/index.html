@@ -62,7 +62,18 @@
                     <div class="ui small warning message">
                         <i class="icon attention"></i>请输入用户名
                     </div>
-                    <div class="ui green submit button signin">
+                    <div class="ui button signup" style="margin-right: 190px;">
+                        注&nbsp;&nbsp;&nbsp;册
+                    </div>
+                    <script type="text/javascript">
+                        $('.signup.button').click(function() {
+                            $('.main').moveDown();
+                            setTimeout(function() {
+                                $('.page2 .form').fadeIn();
+                            }, 500);
+                        });
+                    </script>
+                    <div class="ui blue submit button signin">
                         登&nbsp;&nbsp;&nbsp;录
                     </div>
                 </div>
@@ -73,7 +84,7 @@
                 <img src="/img/zaiyiqi.png" class="zaiyiqi">
                 <div class="huge green ui labeled icon button signup">
                     <i class="signup icon"></i>
-                    注  册
+                    加入我们
                 </div>
                 <div class="ui form segment">
                     <h3 class="ui header">帐号注册</h3>

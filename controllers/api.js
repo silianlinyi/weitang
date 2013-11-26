@@ -196,6 +196,7 @@ module.exports = {
 				});
 				return;
 			}
+			console.log(doc);
 
 			if(!!doc) {
 				res.json({

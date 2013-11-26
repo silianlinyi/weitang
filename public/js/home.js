@@ -12,9 +12,10 @@ define(function(require, exports, module) {
 							'<div class="content">' +
 								'<a href="/question?_id=<%= _id %>" target="_blank" class="header"><%= title %></a>' +
 								'<div class="sub header">' +
-									'<a class="ui label">NodeJS</a>' +
-									'<a class="ui label">NodeJS</a>' +
-									'<a class="ui label">NodeJS</a>' +
+									// 问题所属话题的遍历
+									'<% for(var i = 0; i < topics.length; i++) { %>' +
+										'<a class="ui label"><%= topics[i] %></a>' +
+									'<% } %>' +
 								'</div>' +
 							'</div>' +
 						'</h3>' +

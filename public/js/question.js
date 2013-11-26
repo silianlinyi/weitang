@@ -3,7 +3,11 @@ define(function(require, exports, module) {
 	// 问题详情页面模版视图
 	var questionTemp = 	'<div class="ui raised segment">' +
 							'<div class="ui teal large ribbon label">' +
-								'话题：<%= topics %>' +
+								'话题：' +
+								// 问题所属话题的遍历
+								'<% for(var i = 0; i < topics.length; i++) { %>' +
+									'<%= topics[i] %>  ' +
+								'<% } %>' +
 							'</div>' +
 							'<h3 class="ui teal header">' +
 								'<img class="ui avatar left floated image" src="/img/photo2.jpg">' +
