@@ -27,91 +27,102 @@
     <% include ./inc_sidebar.html %>
 
     <div class="ui page grid mainpage">
-        <div class="twelve wide column">
+        <div class="eleven wide column">
 
             <h4 class="ui dividing header">
                 <i class="inbox icon"></i>
-                发布一个问题
+                提出新问题
             </h4>
             
             <div class="ui form">
                 <div class="field">
-                    <input type="text" class="title" placeholder="例如：2014年的手游市场角色扮演类游戏里打斗类的火热程度会超过卡牌吗？">
+                    <input type="text" class="title" placeholder="标题，用一句话说清你的问题">
                 </div>
-                <div class="field">
-                    <label>问题详细说明（可选）：</label>
-                    <textarea class="content"></textarea>
-                </div>
-                <!-- <div class="field">
-                    <label for="">已选话题：</label>
-                    <div class="ui small teal labels">
-                        <div class="ui label">
-                            Witty
-                            <i class="delete icon"></i>
-                        </div>
-                        <div class="ui label">
-                            NodeJS
-                            <i class="delete icon"></i>
-                        </div>
-                        <div class="ui label">
-                            JavaScript
-                            <i class="delete icon"></i>
-                        </div>
-                        <div class="ui label">
-                            Witty
-                            <i class="delete icon"></i>
+                <div class="field" style="margin-bottom: 5px;">
+                    <div class="ui icon buttons">
+                        <div class="ui button" title="撤销"><i class="reply mail icon"></i></div>
+                        <div class="ui button" title="重做"><i class="forward mail icon"></i></div>
+                    </div>
+                    <div class="ui icon buttons">
+                        <div class="ui button"><i class="bold icon"></i></div>
+                        <div class="ui button"><i class="italic icon"></i></div>
+                    </div>  
+                    <div class="ui icon buttons">
+                        <div class="ui button"><i class="url icon"></i></div>
+                        <div class="ui button"><i class="quote left icon"></i></div>
+                        <div class="ui button"><i class="code icon"></i></div>
+                        <div class="ui button"><i class="photo icon"></i></div>
+                    </div>
+                    <div class="ui icon buttons">
+                        <div class="ui button"><i class="ordered list icon"></i></div>
+                        <div class="ui button"><i class="unordered list icon"></i></div>
+                        <div class="ui button"><i class="fullscreen icon"></i></div>
+                    </div>
+                    <div class="ui icon buttons" style="float: right;">
+                        <div class="ui icon button">
+                            <i class="question icon"></i>
                         </div>
                     </div>
+                </div>
+
+                <div class="field">
+                    <textarea class="content" style="height:280px;"></textarea>
+                </div>
                 
-                </div> -->
                 <div class="field">
-                    <div class="ui left input">
-                        <input type="text" class="topics" placeholder="多个话题之间请用空格进行分割，例如：NodeJS JavaScript 前端开发">
-                    </div>
-
+                    
                 </div>
+            </div>
+        </div>
+        <div class="five wide column">
+            <h5 class="ui small header">
+                提问指南
+            </h5>
+            <div class="ui bulleted list">
+                <div class="item">良好的排版，正确使用Markdown语法</div>
+                <div class="item">内容与技术相关，有明确的答案，有代码贴代码，附上已尝试过的解决方案</div>
+            </div>
 
-                <div class="field">
-                    <div class="ui fluid teal button add">
-                        发布问题
-                    </div>
+
+            <div class="ui divider"></div>
+            <h5 class="ui header">问题标签（至少1个）</h5>
+
+            <div class="ui small labels">
+                <div class="ui label">Witty<i class="delete icon"></i></div>
+                <div class="ui label">Witty<i class="delete icon"></i></div>
+                <div class="ui label">Witty<i class="delete icon"></i></div>
+                <div class="ui label">Witty<i class="delete icon"></i></div>
+                <div class="ui label">Witty<i class="delete icon"></i></div>
+            </div>
+
+            <div class="ui small fluid icon input">
+                <input type="text" placeholder="如: NodeJS">
+                <i class="inverted blue add icon"></i>
+            </div>
+
+            <div class="ui segment">
+                <div class="ui small labels">
+                    <div class="ui label">JavaScript</div>
+                    <div class="ui label">css</div>
+                    <div class="ui label">前端开发</div>
+                    <div class="ui label">css</div>
+                    <div class="ui label">JavaScript</div>
+                    <div class="ui label">JavaScript</div>
+                    <div class="ui label">css</div>
+                    <div class="ui label">前端开发</div>
+                    <div class="ui label">JavaScript</div>
+                    <div class="ui label">JavaScript</div>
+                    <div class="ui label">css</div>
+                    <div class="ui label">前端开发</div>
+                    <div class="ui label">JavaScript</div>
+                    <div class="ui label">css</div>
                 </div>
+            </div>
 
-                <!-- <div class="field">
-                    <label for="">热门话题</label>
-                    <div class="ui small labels hot">
-                        <div class="ui label">Fun</div>
-                        <div class="ui label">移动互联网</div>
-                        <div class="ui label">Fun</div>
-                        <div class="ui label">JavaScript</div>
-                        <div class="ui label">Fun</div>
-                        <div class="ui label">Fun</div>
-                        <div class="ui label">NodeJS</div>
-                        <div class="ui label">Fun</div>
-                        <div class="ui label">移动互联网</div>
-                        <div class="ui label">Fun</div>
-                        <div class="ui label">JavaScript</div>
-                        <div class="ui label">Fun</div>
-                        <div class="ui label">Fun</div>
-                        <div class="ui label">NodeJS</div>
-                        <div class="ui label">JavaScript</div>
-                        <div class="ui label">Fun</div>
-                        <div class="ui label">Fun</div>
-                        <div class="ui label">NodeJS</div>
-                        <div class="ui label">JavaScript</div>
-                        <div class="ui label">Fun</div>
-                        <div class="ui label">Fun</div>
-                        <div class="ui label">NodeJS</div>
-                        
-                    </div>
-                </div> -->
+            <div class="ui fluid red button add">
+                提交问题
             </div>
             
-
-        </div>
-        <div class="four wide column">
-            <img src="/img/bg2.jpg" width="250" alt="">
-
         </div>
 
 
@@ -121,13 +132,10 @@
     
     <% include ./inc_gotop.html %>
     <% include ./inc_footer.html %>
-    
-
 		
     <script type="text/javascript" src="/lib/underscore.js"></script>
     <script type="text/javascript" src="/lib/backbone.js"></script>
     <script src="/seajs/sea.js" data-config="/js/config" data-main="/js/ask" ></script>
-        
 
 </body>
 </html>

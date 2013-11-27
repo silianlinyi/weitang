@@ -13,7 +13,7 @@
     // 如果出现命名冲突或考虑到规范，可通过_.onConflict()方法恢复"_"被Underscore占用之前的值，并返回Underscore对象以便重新命名
     var previousUnderscore = root._;
 
-    // Establish the object that gets returned to break out of a loop iteration.
+    // 创建一个空的对象常量，便于内部共享使用。
     var breaker = {};
 
     // 将内置对象的原型缓存在局部变量，方便快速调用
@@ -39,8 +39,8 @@
         nativeSome = ArrayProto.some,
         nativeIndexOf = ArrayProto.indexOf,
         nativeLastIndexOf = ArrayProto.lastIndexOf,
-        nativeIsArray = Array.isArray,
-        nativeKeys = Object.keys,
+        nativeIsArray = Array.isArray, // 类方法
+        nativeKeys = Object.keys, // 类方法
         nativeBind = FuncProto.bind;
 
     // Create a safe reference to the Underscore object for use below.
@@ -75,9 +75,13 @@
     var each = _.each = _.forEach = function(obj, iterator, context) {
         // 如果obj是一个空值，则直接返回，不做其他处理
         if (obj == null) return;
-        if (nativeForEach && obj.forEach === nativeForEach) { // 如果宿主环境支持，则优先调用原生的forEach方法
+        if (nativeForEach && obj.forEach === nativeForEach) { // 如果宿主环境支持Array.prototype.forEach，则优先调用原生的forEach方法
             obj.forEach(iterator, context);
-        } else if (obj.length === +obj.length) { // 如果宿主环境不支持，则自己实现
+        } else if (obj.length === +obj.length) { 
+            // 如果宿主环境不支持，则自己实现
+            // obj.length === +obj.length这句等价于typeof obj.length === 'number'
+            // 即用来判断元素是否为数字类型的。
+            // 对数组中的每一个元素执行处理器方法
             for (var i = 0, length = obj.length; i < length; i++) {
                 if (iterator.call(context, obj[i], i, obj) === breaker) return;
             }
@@ -89,12 +93,22 @@
         }
     };
 
-    // 迭代处理器，与each方法的差异在于map会存储每次迭代的返回值，并作为一个新的数组返回
+    /**
+     * @method map
+     * 迭代处理器，与each方法的差异在于map会存储每次迭代的返回值，并作为一个新的数组返回
+     * 遍历obj（数组或对象）中的每一个值，通过一个转换函数（iterator）产生一个新的数组。
+     * 如果宿主环境支持Array.prototype.map方法，则优先调用原生的map方法。
+     * @param  {Array/Object} obj 数组或对象
+     * @param  {Function} iterator 迭代函数
+     * @param  {Object} [context]  绑定迭代函数执行上下文（可选）
+     * @return {Array}
+     */
     _.map = _.collect = function(obj, iterator, context) {
         var results = []; // 用于存放返回的数组
         if (obj == null) return results; // 如果传递了一个空值，则返回一个空数组
-        if (nativeMap && obj.map === nativeMap) 
-            return obj.map(iterator, context); // 如果宿主环境支持，则优先调用原生的map方法
+        if(nativeMap && obj.map === nativeMap) { // 如果宿主环境支持，则优先调用原生的map方法
+            return obj.map(iterator, context);
+        }
         each(obj, function(value, index, list) { // 如果宿主环境不支持
             // 将每次迭代处理的返回值存储到results数组
             results.push(iterator.call(context, value, index, list));
@@ -1299,6 +1313,7 @@
             return result.call(this, method.apply(this._wrapped, arguments));
         };
     });
+
 
     _.extend(_.prototype, {
 

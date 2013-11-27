@@ -44,6 +44,9 @@ module.exports = function(app) {
 	app.get('/epic', function(req, res) {
 		res.render('epic');
 	});
+	app.get('/test', function(req, res) {
+		res.render('test');
+	});
 
 	/**
 	 * 404 Page

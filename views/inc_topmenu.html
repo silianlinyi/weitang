@@ -1,12 +1,15 @@
 <div class="ui small fixed transparent inverted main menu">
     <div class="ui page grid">
-        <a href="/home" class="icon item">
+        <a href="/" class="icon item">
             <i class="lemon icon"></i>&nbsp;微糖
         </a>
+        <a href="/home" class="icon item linkHome">问答</a>
+        <a href="/topic" class="item linkTopic">话题</a>
+        <a href="/explore" class="item linkExplore">发现</a>
 
         <div class="item">
             <div class="ui icon input">
-                <input type="text" placeholder="搜索问题..." style="width: 300px;">
+                <input type="text" placeholder="搜索问题..." class="inputSearch" style="width: 220px;">
                 <i class="search icon"></i>
             </div>
         </div>
@@ -14,12 +17,6 @@
         <a href="/ask" target="_blank" class="item">
             <div class="ui teal button">提问</div>
         </a>
-
-        <a href="/home" class="icon item linkHome">问答</a>
-
-        <a href="/topic" class="item linkTopic">话题</a>
-
-        <a href="/explore" class="item linkExplore">发现</a>
 
         <div class="right menu">
             <div class="ui dropdown item">
@@ -47,6 +44,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    // 顶部导航栏相关代码写在这里
+    // -------------------------------------------
     $(function() {
          $('.ui.dropdown').dropdown({
             on: 'hover'
@@ -62,5 +61,19 @@
         if(/explore/.test(href)) {
             $('.linkExplore').addClass('active');
         }
+
+        // 搜索输入框聚焦与失去焦点事件
+        var $inputSearch = $('.inputSearch');
+        $inputSearch.focus(function() {
+            $inputSearch.animate({
+                width: '320'
+            }, 200);
+        });
+
+        $inputSearch.blur(function() {
+            $inputSearch.animate({
+                width: '220'
+            }, 200);
+        });
     });
 </script>
