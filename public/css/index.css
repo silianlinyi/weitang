@@ -66,3 +66,11 @@ i.icon.logo {
 .page2 .form {
     display: none;
 }
+
+.page2 .field label {
+    width: 20% !important;
+    text-align: right;
+}
+.page2 .field div.input {
+    width: 75% !important;
+}

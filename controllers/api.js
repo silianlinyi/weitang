@@ -1,3 +1,6 @@
+var check = require('validator').check,
+    sanitize = require('validator').sanitize;
+
 var mongoose = require('mongoose'),
 	ObjectId = mongoose.Types.ObjectId;
 var crypto = require('crypto');
@@ -82,9 +85,10 @@ module.exports = {
 	signup: function(req, res) {
 		var username = req.param('username'),
 			password = req.param('password'),
-			rePassword = req.param('rePassword');
+			rePassword = req.param('rePassword'),
+			email = req.param('email');
 
-		if(!username || !password || !rePassword) {
+		if(!username || !password || !rePassword || !email) {
 			res.json({
 				"r": 1,
 				"errcode": 1001,

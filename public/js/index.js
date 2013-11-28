@@ -79,51 +79,65 @@ define(function(require, exports, module) {
 		$newUsername = $('.page2 .username'),
 		$newPassword = $('.page2 .password'),
 		$rePassword = $('.page2 .rePassword'),
+		$newEmail = $('.page2 .email'),
 		$newWarning = $('.page2 .warning');
 
 	$signup.click(function() {
 		var username = $newUsername.val(),
 			password = $newPassword.val(),
-			rePassword = $rePassword.val();
+			rePassword = $rePassword.val(),
+			email = $newEmail.val();
+
 		if (!username) {
 			$newWarning.html('<i class="icon attention"></i>请输入用户名').show();
 			return;
-		} else {
-			if(!password) {
-				$newWarning.html('<i class="icon attention"></i>请输入密码').show();
-				return;
-			} else if(!rePassword) {
-				$newWarning.html('<i class="icon attention"></i>请输入确认密码').show();
-				return;
-			} else if(password !== rePassword) {
-				$newWarning.html('<i class="icon attention"></i>两次输入的密码不一致').show();
-				$newPassword.val('');
-				$rePassword.val('');
-				return;
-			}
-
-			$.ajax({
-				url: '/api/signup',
-				type: 'POST',
-				data: {
-					username: username,
-					password: $.base64.encode(password),
-					rePassword: $.base64.encode(rePassword)
-				},
-				dataType: 'json',
-				timeout: 15000,
-				success: function(data, textStatus, jqXHR) {
-					if (data.r === 0) { // 注册成功
-						window.location.href = '/';
-					} else { // 注册失败
-						$newWarning.html('<i class="icon attention"></i>' + data.msg).show();
-					}
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-
-				}
-			});
 		}
+
+		if(!password) {
+			$newWarning.html('<i class="icon attention"></i>请输入密码').show();
+			return;
+		}
+
+		if(!rePassword) {
+			$newWarning.html('<i class="icon attention"></i>请输入确认密码').show();
+			return;
+		}
+
+		if(!email) {
+			$newWarning.html('<i class="icon attention"></i>请输入电子邮箱').show();
+			return;
+		}
+
+		if(password !== rePassword) {
+			$newWarning.html('<i class="icon attention"></i>两次输入的密码不一致').show();
+			$newPassword.val('');
+			$rePassword.val('');
+			return;
+		}
+
+		$.ajax({
+			url: '/api/signup',
+			type: 'POST',
+			data: {
+				username: username,
+				password: $.base64.encode(password),
+				rePassword: $.base64.encode(rePassword),
+				email: email
+			},
+			dataType: 'json',
+			timeout: 15000,
+			success: function(data, textStatus, jqXHR) {
+				if (data.r === 0) { // 注册成功
+					window.location.href = '/';
+				} else { // 注册失败
+					$newWarning.html('<i class="icon attention"></i>' + data.msg).show();
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+
+			}
+		});
+
 	});
 
 	$newUsername.focus(function() {
