@@ -9,6 +9,7 @@
         "express": "*",
         "ejs": "*",
         "mongoose": "3.8.0",
-        "validator": "*"
+        "validator": "*",
+        "nodemailer": "0.5.11"
     }
 }

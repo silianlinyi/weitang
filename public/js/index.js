@@ -2,7 +2,7 @@ define(function(require, exports, module) {
 
 	require('../lib/jquery.base64.min.js');
 
-	// 登录
+	// page1 登录
 	// -------------------------------------------
 	var $signinBtn = $('.signin.button'),
 		$username = $('.page1 .username'),
@@ -10,29 +10,31 @@ define(function(require, exports, module) {
 		$warning = $('.page1 .warning');
 
 	$signinBtn.click(function() {
-		var username = $username.val(),
-			password = $password.val();
+		var username = $username.val().trim(),
+			password = $password.val().trim();
 		// TODO
 		// 测试模式
 		username = "wanggan";
 		password = "123456";
 
-		if (!username) {
+		if(!username) {
 			$warning.html('<i class="icon attention"></i>请输入用户名').show();
 			return;
-		} else {
-			if (!password) {
-				$warning.html('<i class="icon attention"></i>请输入密码').show();
-				return;
-			}
 		}
+
+		if(!password) {
+			$warning.html('<i class="icon attention"></i>请输入密码').show();
+			return;
+		}
+
+		password = $.base64.encode(password);
 
 		$.ajax({
 			url: '/api/login',
 			type: 'POST',
 			data: {
 				username: username,
-				password: $.base64.encode(password)
+				password: password
 			},
 			dataType: 'json',
 			timeout: 15000,
@@ -53,7 +55,6 @@ define(function(require, exports, module) {
 		});
 	});
 
-
 	$username.focus(function() {
 		$warning.hide();
 	});
@@ -62,31 +63,33 @@ define(function(require, exports, module) {
 		$warning.hide();
 	});
 
-
+	// TODO
+	// 与page2注册按钮会冲突，以后删除
 	$('body').keydown(function(e) {
 		if(e.keyCode === 13) {
 			$signinBtn.click();
 		}
 	});
 
-	// 注册
+	// page2 注册
 	// -------------------------------------------
 	$('.labeled.signup.button').click(function() {
 		$('.page2 .form').fadeIn();
 	});
 
-	var $signup = $('.submit.signup.button'),
+	var $signup = $('.page2 .submit.signup.button'),
 		$newUsername = $('.page2 .username'),
 		$newPassword = $('.page2 .password'),
 		$rePassword = $('.page2 .rePassword'),
 		$newEmail = $('.page2 .email'),
 		$newWarning = $('.page2 .warning');
 
+	// 注册表单点击“注册”按钮
 	$signup.click(function() {
-		var username = $newUsername.val(),
-			password = $newPassword.val(),
-			rePassword = $rePassword.val(),
-			email = $newEmail.val();
+		var username = $newUsername.val().trim(),
+			password = $newPassword.val().trim(),
+			rePassword = $rePassword.val().trim(),
+			email = $newEmail.val().trim();
 
 		if (!username) {
 			$newWarning.html('<i class="icon attention"></i>请输入用户名').show();
@@ -140,19 +143,9 @@ define(function(require, exports, module) {
 
 	});
 
-	$newUsername.focus(function() {
+	$('.inputPage2').focus(function() {
 		$newWarning.hide();
 	});
 
-	$newPassword.focus(function() {
-		$newWarning.hide();
-	});
-
-	$rePassword.focus(function() {
-		$newWarning.hide();
-	});
-
-
-	
 
 });

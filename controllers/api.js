@@ -38,7 +38,11 @@ module.exports = {
 			password = req.param('password');
 
 		User.findOne({
-			username: username,
+			'$or': [{
+				'username': username
+			}, {
+				'email': username
+			}],
 			password: md5(password)
 		}, function(err, doc) {
 			if (err) {
@@ -88,65 +92,106 @@ module.exports = {
 			rePassword = req.param('rePassword'),
 			email = req.param('email');
 
-		if(!username || !password || !rePassword || !email) {
+		if(username === '' || password === '' || rePassword === '' || email === '') {
 			res.json({
 				"r": 1,
 				"errcode": 1001,
 				"msg": "注册信息不完整"
 			});
-		} else if(password !== rePassword) {
+			return;
+		}
+
+		if(username.length < 5) {
+			res.json({
+				"r": 1,
+				"errcode": 1004,
+				"msg": "用户名至少需要5个字符"
+			});
+			return;
+		}
+
+		try {
+			check(username).isAlphanumeric();
+		} catch(e) {
+			res.json({
+				"r": 1,
+				"errcode": 1005,
+				"msg": "用户名只能使用0-9，a-z，A-Z"
+			});
+			return;
+		}
+
+		if(password !== rePassword) {
 			res.json({
 				"r": 1,
 				"errcode": 1002,
 				"msg": "两次输入的密码不一致"
 			});
-		} else {
-			User.findOne({
-				username: username
-			}, function(err, doc) {
-				if(err) {
+			return;
+		}
+
+		try {
+			check(email).isEmail();
+		} catch(e) {
+			res.json({
+				"r": 1,
+				"errcode": 1006,
+				"msg": "不正确的电子邮箱地址"
+			});
+			return;
+		}
+
+		User.findOne({
+			'$or': [{
+				'username': username
+			}, {
+				'email': email
+			}]
+		}, function(err, doc) {
+			if(err) {
+				res.json({
+					"r": 1,
+					"errcode": 2001,
+					"msg": "服务器错误，注册失败"
+				});
+				return;
+			} else {
+				if(!!doc) {
 					res.json({
 						"r": 1,
-						"errcode": 2001,
-						"msg": "服务器错误，注册失败"
+						"errcode": 1003,
+						"msg": "该用户名或邮箱已经被注册"
 					});
 					return;
 				} else {
-					if(!!doc) {
-						res.json({
-							"r": 1,
-							"errcode": 1003,
-							"msg": "该用户名已经被注册"
-						});
-						return;
-					} else {
-						var user = new User({
-							username: username,
-							password: md5(password)
-						});
+					var user = new User({
+						username: username,
+						password: md5(password),
+						email: email
+					});
 
-						user.save(function(err) {
-							if(err) {
-								res.json({
-									"r": 1,
-									"errcode": 2001,
-									"msg": "服务器错误，注册失败"
-								});
-								return;
-							} else {
-								// 注册成功后，将用户的_id写入session，表示用户已经登录
-								req.session._id = user._id;
-								res.json({
-									"r": 0,
-									"msg": "注册成功"
-								});
-								return;
-							}
-						});
-					}
+					user.save(function(err) {
+						if(err) {
+							res.json({
+								"r": 1,
+								"errcode": 2001,
+								"msg": "服务器错误，注册失败"
+							});
+							return;
+						} else {
+							// 注册成功后，将用户的_id写入session，表示用户已经登录
+							req.session._id = user._id;
+							res.json({
+								"r": 0,
+								"msg": "注册成功"
+							});
+							return;
+						}
+					});
 				}
-			});	
-		}
+			}
+		});
+
 	},
 
 	/**

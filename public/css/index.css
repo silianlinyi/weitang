@@ -39,11 +39,22 @@ body {
     width: 420px;
     position: absolute;
     top: 15%;
-    right: 8%;
+    right: 4%;
 }
 
-.page2 .ui.form {
-    right: 4%;
+/* page1 */
+.page1 .signup {
+    margin-right: 190px;
+}
+
+/* page2 */
+.page2 .message {
+    width: 290px;
+    margin-left: 90px;
+}
+.page2 .form .signup {
+    margin-left: 90px;
+    width: 290px;
 }
 
 i.icon.logo {
