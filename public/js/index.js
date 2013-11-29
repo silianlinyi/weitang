@@ -14,8 +14,8 @@ define(function(require, exports, module) {
 			password = $password.val().trim();
 		// TODO
 		// 测试模式
-		username = "wanggan";
-		password = "123456";
+		//username = "wanggan";
+		//password = "123456";
 
 		if(!username) {
 			$warning.html('<i class="icon attention"></i>请输入用户名').show();
