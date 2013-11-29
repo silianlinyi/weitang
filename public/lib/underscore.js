@@ -45,10 +45,10 @@
 
     // Create a safe reference to the Underscore object for use below.
     var _ = function(obj) {
-            if (obj instanceof _) return obj;
-            if (!(this instanceof _)) return new _(obj);
-            this._wrapped = obj;
-        };
+        if (obj instanceof _) return obj;
+        if (!(this instanceof _)) return new _(obj);
+        this._wrapped = obj;
+    };
 
     // Export the Underscore object for **Node.js**, with
     // backwards-compatibility for the old `require()` API. If we're in

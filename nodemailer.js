@@ -29,3 +29,6 @@ smtpTransport.sendMail(mailOptions, function(error, response){
     // if you don't want to use this transport object anymore, uncomment following line
     //smtpTransport.close(); // shut down the connection pool, no more messages
 });
+
+// 微信公共号激活链接
+// https://mp.weixin.qq.com/cgi-bin/activateemail?email=dHpod2cwODI5QDEyNi5jb20%3D&ticket=326a60d073e65dde6fd59f2308f38f17558a3e05
