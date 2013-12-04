@@ -4,40 +4,13 @@ define(function(require, exports, module) {
 		window.console && console.log(str);
 	}
 
-	// 加载依赖模块
-  
-	// 单个问题模版
-	var questionTemp = 	'<h3 class="ui teal header">' +
-							'<img class="ui avatar left floated image" src="/img/photo2.jpg">' +
-							'<div class="content">' +
-								'<a href="/question?_id=<%= _id %>" target="_blank" class="header"><%= title %></a>' +
-								'<div class="sub header">' +
-									// 问题所属话题的遍历
-									'<% for(var i = 0; i < topics.length; i++) { %>' +
-										'<a class="ui label"><%= topics[i] %></a>' +
-									'<% } %>' +
-								'</div>' +
-							'</div>' +
-						'</h3>' +
-						'<p><%= content %><a href="/question?_id=<%= _id %>" target="_blank" class="seeall">查看全部</a></p>' +
-						'<div class="ui text menu">' +
-							'<div class="item">' +
-								'<i class="comment icon"></i><%= answerCounter %>个回答' +
-							'</div>' +
-							'<div class="item">' +
-								'<i class="unhide icon"></i><%= viewCounter %>次查看' +
-							'</div>' +
-							'<a href="javascript:void(0);" class="item heart">' +
-								'<i class="heart red icon"></i>关注' +
-							'</a>' +
-							'<a href="javascript:void(0);" class="item bookmark">' +
-								'<i class="bookmark red icon"></i>收藏' +
-							'</a>' +
-							'<a href="javascript:void(0);" class="item share">' +
-								'<i class="share sign red icon"></i>分享' +
-							'</a>' +
-						'</div>' +
-						'<div class="ui horizontal icon divider"><i class="leaf icon"></i></div>';
+	// 修改模版标签为
+	// <? ?>、<?= ?>、<?- ?>
+	_.templateSettings = {
+		evaluate : /\<\?([\s\S]+?)\?\>/g,
+		interpolate : /\<\?=([\s\S]+?)\?\>/g,
+		escape : /\<\?-([\s\S]+?)\?\>/g
+	};
 
 	// 页面元素
 	var $loadMore = $('.loadMore');
@@ -85,7 +58,7 @@ define(function(require, exports, module) {
 	var QuestionView = Backbone.View.extend({
 		tagName: "div",
 		className: "ui basic segment",
-		template: questionTemp,
+		template: $("#questionTemp").html(),
 		events : {
 			"click .heart": "heart",
 			"click .bookmark": "bookmark",
@@ -123,7 +96,7 @@ define(function(require, exports, module) {
 	 * ====================================================
 	 */
 	var AppView = Backbone.View.extend({
-		el: $("#appHome"),
+		el: $("body"),
 		events: {
 			"click .loadMore": "loadMore"
 		},

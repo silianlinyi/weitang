@@ -32,59 +32,49 @@
                 <i class="inbox icon"></i>
                 最新问题
             </h4>
-            
-            <div class="ui raised segment questionList">
-                <!-- one item -->
-                <!-- <div class="ui basic segment">
-                    <h3 class="ui teal header">
-                        <img class="ui avatar left floated image" src="/img/photo2.jpg">
-                        <div class="content">
-                            <a href="/question?_id=528eb6d489d4897c1f000002" class="header">2014年的手游市场角色扮演类游戏里打斗类的火热程度会超过卡牌吗？</a>
-                            <div class="sub header">
-                                <a class="ui label">NodeJS</a>
-                                <a class="ui label">NodeJS</a>
-                                <a class="ui label">NodeJS</a>
-                            </div>
-                        </div>
-                    </h3>
-                    <p>但是，卡牌游戏并不存在过期这一说。首先，策略卡牌在暴雪的带领下会逐渐登场，虽然可能类似COC一阵风过去落花无痕。其次，RPG化的卡牌游戏已经成为玩家认可的一种类型，在微创新的推动下，依然有很大市场。最后，还有很多卡牌类型等待着国人的学（shan）习（zhai），如国内卡牌游戏的源头——日本游戏：但是，卡牌游戏并不存在过期这一说。首先，策略卡牌在暴雪的带领下会逐渐登场，虽然可能类似COC一阵风过去落花无痕。其次，RPG化的卡牌游戏已经成为玩家认可的一种类型，在微创新的推动下，依然有很大市场。最后，还有很多卡牌类型等待着国人的学（shan）习（zhai），如国内卡牌游戏的源头——日本游戏：<a href="/question?_id=528eb6d489d4897c1f000002" class="seeall">查看全部</a></p>
-                
-                    <div class="ui text menu">
-                        <a href="" class="item">
-                            <i class="comment icon"></i>9个回答
-                        </a>
-                        <a href="" class="item">
-                            <i class="unhide icon"></i>19次查看
-                        </a>
-                        <a href="" class="item">
-                            <i class="heart red icon"></i>关注
-                        </a>
-                        <a href="" class="item">
-                            <i class="bookmark red icon"></i>收藏
-                        </a>
-                        <a href="" class="item">
-                            <i class="share sign red icon"></i>分享
-                        </a>
-                    </div>
-                
-                    <div class="ui horizontal icon divider">
-                        <i class="leaf icon"></i>
-                    </div>
-                </div> -->
-
-            </div>
-
+            <div class="ui raised segment questionList"></div>
             <div class="bottom attached ui button loadMore">更多...</div>
-
         </div>
         <div class="four wide column">
             <img src="/img/bg2.jpg" width="100%" alt="">
         </div>
-
     </div>
     
     <% include ./inc_gotop.html %>
     <% include ./inc_footer.html %>
+
+    <script type="text/template" id="questionTemp">
+        <h3 class="ui teal header">
+            <img class="ui avatar left floated image" src="/img/photo2.jpg">
+            <div class="content">
+                <a href="/question?_id=<?= _id ?>" target="_blank" class="header"><?= title ?></a>
+                <div class="sub header">
+                    <? for(var i = 0; i < topics.length; i++) { ?>
+                        <a class="ui label"><?= topics[i] ?></a>
+                    <? } ?>
+                </div>
+            </div>
+        </h3>
+        <p><?= content ?><a href="/question?_id=<?= _id ?>" target="_blank" class="seeall">查看全部</a></p>
+        <div class="ui text menu">
+            <div class="item">
+                <i class="comment icon"></i><?= answerCounter ?>个回答
+            </div>
+            <div class="item">
+                <i class="unhide icon"></i><?= viewCounter ?>次查看
+            </div>
+            <a href="javascript:void(0);" class="item heart">
+                <i class="heart red icon"></i>关注
+            </a>
+            <a href="javascript:void(0);" class="item bookmark">
+                <i class="bookmark red icon"></i>收藏
+            </a>
+            <a href="javascript:void(0);" class="item share">
+                <i class="share sign red icon"></i>分享
+            </a>
+        </div>
+        <div class="ui horizontal icon divider"><i class="leaf icon"></i></div>
+    </script>
 		
     <script type="text/javascript" src="/lib/underscore.js"></script>
     <script type="text/javascript" src="/lib/backbone.js"></script>
