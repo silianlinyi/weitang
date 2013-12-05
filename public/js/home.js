@@ -1,8 +1,10 @@
 define(function(require, exports, module) {
 
-	function Log(str) {
-		window.console && console.log(str);
-	}
+	// 加载依赖模块
+	var log = require('../lib/log');
+	var $I = require('./interface');
+	var Util = require('./util');
+	Util.convertDate("2013-11-28T02:07:14.868Z");
 
 	// 修改模版标签为
 	// <? ?>、<?= ?>、<?- ?>
@@ -134,7 +136,7 @@ define(function(require, exports, module) {
 		findQuestionsByPage: function(succCall, failCall) {
 			var me = this;
 			failCall = failCall || function() {
-				Log("findQuestionsByPage failCall invoked.");
+				log("findQuestionsByPage failCall invoked.");
 			}
 			$.ajax({
 				url : '/api/question/findQuestionsByPage',
@@ -159,7 +161,7 @@ define(function(require, exports, module) {
 				pageSize = me.queryConfig.pageSize;
 
 			me.findQuestionsByPage(function(data) {
-				Log(data);
+				log(data);
 				var len = data.questionList.length;
 				if(len > 0 && len < pageSize) {
 					me.questionList.add(data.questionList);
@@ -181,7 +183,7 @@ define(function(require, exports, module) {
 				pageSize = me.queryConfig.pageSize;
 
 			me.findQuestionsByPage(function(data) {
-				Log(data);
+				log(data);
 				var len = data.questionList.length;
 				if(len === 0) {
 					$loadMore.html('无更多问题');

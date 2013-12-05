@@ -4,7 +4,7 @@ body {
 
 .wrapper {
     height: 100% !important;
-    margin: 0 auto; 
+    margin: 0 auto;
     overflow: hidden;
 }
 
@@ -52,6 +52,7 @@ body {
     width: 290px;
     margin-left: 90px;
 }
+
 .page2 .form .signup {
     margin-left: 90px;
     width: 290px;
@@ -62,6 +63,7 @@ i.icon.logo {
     height: 49px;
     background: url('/img/login-logo.png');
 }
+
 .page2 .labeled.signup.button {
     position: absolute;
     right: 200px;
@@ -82,6 +84,7 @@ i.icon.logo {
     width: 20% !important;
     text-align: right;
 }
+
 .page2 .field div.input {
     width: 75% !important;
 }

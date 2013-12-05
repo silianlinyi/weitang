@@ -1,12 +1,8 @@
 define(function(require, exports, module) {
-	
-	//如果浏览器不支持console
-	if(!window.console) {
-		window.console = {};
-		console.log = function(str) {
-			return str;
-		}
-	}
+
+	// 加载依赖模块
+	var log = require('../lib/log');
+	var $I = require('./interface');
 
 	/**
 	 * 移除数组中指定的一个元素
@@ -61,27 +57,17 @@ define(function(require, exports, module) {
 			return;
 		}
 
-		$.ajax({
-			url: '/api/question/addQuestion',
-			type: 'POST',
-			data: {
-				title: title,
-				content: content,
-				topics: hasAddedTopics
-			},
-			dataType: 'json',
-			timeout: 15000,
-			success: function(data, textStatus, jqXHR) {
-				console.log(data);
-				if (data.r === 0) {
-					alert(data.msg);
-					window.location.reload();
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-
+		$I.addQuestion({
+			title: title,
+			content: content,
+			topics: hasAddedTopics
+		}, function(data) {
+			if (data.r === 0) {
+				alert(data.msg);
+				window.location.reload();
 			}
 		});
+		
 	});
 
 });

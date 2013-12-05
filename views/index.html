@@ -30,8 +30,6 @@
                 pagination: true,
                 updateURL: false
             });
-
-            //$main.moveDown();
         });
     </script>
 </head>
@@ -48,14 +46,14 @@
                     <div class="field">
                         <label>用户名</label>
                         <div class="ui left labeled icon input">
-                            <input type="text" placeholder="用户名 / 邮箱" class="username">
+                            <input type="text" placeholder="用户名 / 邮箱" class="username inputPage1">
                             <i class="user icon"></i>
                         </div>
                     </div>
                     <div class="field">
                         <label>密码</label>
                         <div class="ui left labeled icon input">
-                            <input type="password" placeholder="密码" class="password">
+                            <input type="password" placeholder="密码" class="password inputPage1">
                             <i class="lock icon"></i>
                         </div>
                     </div>
@@ -65,14 +63,6 @@
                     <div class="ui button signup">
                         注&nbsp;&nbsp;&nbsp;册
                     </div>
-                    <script type="text/javascript">
-                        $('.signup.button').click(function() {
-                            $('.main').moveDown();
-                            setTimeout(function() {
-                                $('.page2 .form').fadeIn();
-                            }, 500);
-                        });
-                    </script>
                     <div class="ui blue submit button signin">
                         登&nbsp;&nbsp;&nbsp;录
                     </div>
@@ -126,14 +116,10 @@
             </div>
         </section>
         <section class="page3">
-            <div class="page_container">
-                
-            </div>
+            <div class="page_container"></div>
         </section>
     </div>
-    
-    
-    
+
     <script src="/seajs/sea.js" data-config="/js/config" data-main="/js/index" ></script>
 </body>
 </html>
