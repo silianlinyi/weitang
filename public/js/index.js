@@ -24,7 +24,7 @@ define(function(require, exports, module) {
 		var username = $('.page1 .username').val().trim(),
 			password = $('.page1 .password').val().trim();
 		username = 'wanggan';
-		password = '111';
+		password = '123456';
 		if(!username) {
 			$warning.html('<i class="icon attention"></i>请输入用户名').show();
 			return;
@@ -51,11 +51,12 @@ define(function(require, exports, module) {
 
 	});
 
-	// TODO
-	// 与page2注册按钮会冲突，以后删除
+	// page1登录按钮键盘事件监听(Enter)
 	$('body').keydown(function(e) {
-		if(e.keyCode === 13) {
-			$signinBtn.click();
+		if($('.page1').hasClass('active')) { // 说明用户当前处于page1
+			if(e.keyCode === 13) {
+				$signinBtn.click();
+			}
 		}
 	});
 

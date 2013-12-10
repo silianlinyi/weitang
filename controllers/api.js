@@ -236,7 +236,10 @@ module.exports = {
 	findQuestionById: function(req, res) {
 		var _id = req.param('_id');
 
-		Question.findById(new ObjectId(_id), function(err, doc) {
+		// { $inc: { viewCounter: 1 }}文章查看次数自增
+		Question.findByIdAndUpdate(new ObjectId(_id), {
+			$inc: { viewCounter: 1 }
+		}, function(err, doc) {
 			if(err) {
 				res.json({
 					"r": 1,
@@ -245,7 +248,6 @@ module.exports = {
 				});
 				return;
 			}
-			console.log(doc);
 
 			if(!!doc) {
 				res.json({

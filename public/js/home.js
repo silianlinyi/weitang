@@ -4,7 +4,6 @@ define(function(require, exports, module) {
 	var log = require('../lib/log');
 	var $I = require('./interface');
 	var Util = require('./util');
-	Util.convertDate("2013-11-28T02:07:14.868Z");
 
 	// 修改模版标签为
 	// <? ?>、<?= ?>、<?- ?>
@@ -123,6 +122,7 @@ define(function(require, exports, module) {
 		renderOneQuestion: function(model) {
 			var me = this;
 
+			model.set('createTimeLocal',Util.convertDate(model.get("createTime")));
 			var view = new QuestionView({
 				model: model
 			});
@@ -203,7 +203,7 @@ define(function(require, exports, module) {
 	});
 
 	// 生成一个应用实例
-	new AppView();
+	var app = window.app = new AppView();
 
 
 
