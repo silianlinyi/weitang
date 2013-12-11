@@ -7,8 +7,19 @@
  * 
  */
 module.exports = {
+	name: "微糖",
+	description: "分享知识，分享快乐！",
+
 	MONGODB_IP: "127.0.0.1",
 	MONGODB_PORT: 27017,
 	MONGODB_DATABASE_NAME: "weitang",
-	WEB_SERVER_PORT: 9999
+	WEB_SERVER_PORT: 9999,
+
+	mailOpts: {
+		service: "Gmail",
+	    auth: {
+	        user: "silianlinyi@gmail.com",
+	        pass: "sangjijia"
+	    }
+	}
 }
