@@ -26,6 +26,10 @@ module.exports = {
 		res.render('ask');
 	},
 
+	resetPassword: function(req, res) {
+		res.render('resetPassword');
+	},
+
 	question: function(req, res) {
 		res.render('question');
 	},

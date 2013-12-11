@@ -13,6 +13,12 @@ module.exports = function(app) {
 	app.get('/explore', api.userAuth, site.explore);
 	app.get('/question', api.userAuth, site.question);
 	app.get('/ask', api.userAuth, site.ask);
+	app.get('/resetPassword', site.resetPassword);
+	app.post('/resetPassword', function(req, res) {
+		res.json({
+			r: 0
+		});
+	})
 
 	/**
 	 * 用户相关路由

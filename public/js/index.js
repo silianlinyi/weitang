@@ -13,7 +13,7 @@ define(function(require, exports, module) {
 		$warning.hide();
 	});
 
-	$('.page1 .signup.button').click(function() {
+	$('.page1 .signup').click(function() {
         $('.main').moveDown();
         setTimeout(function() {
             $('.page2 .form').fadeIn();
@@ -23,8 +23,8 @@ define(function(require, exports, module) {
 	$signinBtn.click(function() {
 		var username = $('.page1 .username').val().trim(),
 			password = $('.page1 .password').val().trim();
-		username = 'wanggan';
-		password = '123456';
+		// username = 'wanggan';
+		// password = '123456';
 		if(!username) {
 			$warning.html('<i class="icon attention"></i>请输入用户名').show();
 			return;

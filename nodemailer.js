@@ -4,17 +4,17 @@ var nodemailer = require("nodemailer");
 var smtpTransport = nodemailer.createTransport("SMTP",{
     service: "Gmail",
     auth: {
-        user: "weitang@gmail.com",
+        user: "silianlinyi@gmail.com",
         pass: "sangjijia"
     }
 });
 
 // setup e-mail data with unicode symbols
 var mailOptions = {
-    from: "weitang <weitang@gmail.com>", // sender address
+    from: "silianlinyi <silianlinyi@gmail.com>", // sender address
     to: "244098979@qq.com", // list of receivers
-    subject: "Hello", // Subject line
-    text: "Hello world", // plaintext body
+    subject: "subject", // Subject line
+    text: "text", // plaintext body
     html: "<b>Hello world</b>" // html body
 }
 

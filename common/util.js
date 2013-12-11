@@ -8,6 +8,18 @@ module.exports = {
 	 */
 	randomString: function(size) {
 		size = size || 6;
-		var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk'
+		var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+			maxNum = chars.length + 1,
+			ret = '';
+		while(size > 0) {
+			ret += chars.charAt(Math.floor(Math.random() * maxNum));
+			size--;
+		}
+		return ret;
 	}
+
+
+
+
+	
 }

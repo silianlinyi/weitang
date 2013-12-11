@@ -43,8 +43,8 @@ body {
 }
 
 /* page1 */
-.page1 .signup {
-    margin-right: 190px;
+.page1 .form a.ui.header {
+    margin-bottom: 0;
 }
 
 /* page2 */
