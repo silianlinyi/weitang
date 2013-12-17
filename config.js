@@ -15,6 +15,8 @@ module.exports = {
 	MONGODB_DATABASE_NAME: "weitang",
 	WEB_SERVER_PORT: 9999,
 
+	DOMAIN: '127.0.0.1:9999',
+
 	mailOpts: {
 		service: "Gmail",
 	    auth: {

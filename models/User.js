@@ -42,6 +42,14 @@ var UserSchema = new Schema({
 	active: {
 		type: Boolean,
 		default: false
+	},
+	resetTicket: {
+		type: Number,
+		default: 0
+	},
+	resetToken: {
+		type: String,
+		default: ''
 	}
 });
 

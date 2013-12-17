@@ -6,19 +6,15 @@ module.exports = function(app) {
 	/**
 	 * 页面路由
 	 */
-	app.get('/index', site.index);
-	app.get('/', api.userAuth, site.home);
-	app.get('/home', api.userAuth, site.home);
-	app.get('/topic', api.userAuth, site.topic);
-	app.get('/explore', api.userAuth, site.explore);
-	app.get('/question', api.userAuth, site.question);
-	app.get('/ask', api.userAuth, site.ask);
-	app.get('/resetPassword', site.resetPassword);
-	app.post('/resetPassword', function(req, res) {
-		res.json({
-			r: 0
-		});
-	})
+	app.get('/index', site.index);						// 跳转到【微糖首页】（登录）
+	app.get('/', api.userAuth, site.home);				// 跳转到【微糖首页】
+	app.get('/home', api.userAuth, site.home);			// 跳转到【微糖首页】
+	app.get('/topic', api.userAuth, site.topic);		// 跳转到【话题】页面
+	app.get('/explore', api.userAuth, site.explore);	// 跳转到【发现】页面
+	app.get('/question', api.userAuth, site.question);	// 跳转到【具体问题】页面
+	app.get('/ask', api.userAuth, site.ask);			// 跳转到【提问】页面
+	app.get('/resetPassword', site.resetPassword);		// 跳转到【重置密码】页面
+	app.get('/resetPassEmail', site.resetPassEmail);
 
 	/**
 	 * 用户相关路由
@@ -26,6 +22,10 @@ module.exports = function(app) {
 	app.post('/api/signup', api.signup);
 	app.post('/api/login', api.login);
 	app.get('/api/logout', api.logout);
+	app.post('/api/resetPassword', api.resetPassword);
+	app.post('/api/resetPassEmail', api.resetPassEmail);
+	app.post('/api/modifyPassword', api.userAuth, api.modifyPassword);
+
 
 	/**
 	 * 设置相关路由
@@ -50,8 +50,8 @@ module.exports = function(app) {
 	app.get('/epic', function(req, res) {
 		res.render('epic');
 	});
-	app.get('/test', function(req, res) {
-		res.render('test');
+	app.get('/chart', function(req, res) {
+		res.render('chart');
 	});
 
 	/**

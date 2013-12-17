@@ -10,6 +10,7 @@
         "ejs": "*",
         "mongoose": "3.8.0",
         "validator": "*",
-        "nodemailer": "0.5.11"
+        "nodemailer": "0.5.11",
+        "base64": "2.1.0"
     }
 }

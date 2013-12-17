@@ -2,9 +2,6 @@
  * 给Sea.js用的项目配置文件
  */
 seajs.config({
-	map: [
-		[ /^(.*\.(?:css|js))(?:.*)$/i, '$1'+(window.assetsVersion||("?"+Math.random()) ) ]
-	],
 	plugins: ['shim'],
 	alias: {
 		'jquery': {

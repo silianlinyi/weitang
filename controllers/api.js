@@ -1,6 +1,10 @@
 var check = require('validator').check,
     sanitize = require('validator').sanitize;
 
+var mail = require('../services/mail');
+
+var Util = require('../common/util');
+
 var mongoose = require('mongoose'),
 	ObjectId = mongoose.Types.ObjectId;
 var crypto = require('crypto');
@@ -377,8 +381,156 @@ module.exports = {
 				});
 			}
 		});
+	},
+
+	/**
+	 * @method resetPassword
+	 * 重置密码
+	 */
+	resetPassword: function(req, res) {
+		var to = req.param('email');
+		var ticket = (new Date()).getTime();	// 重置密码触发事件
+		var token = Util.randomString(30);		// 重置密码token
+
+		User.findOneAndUpdate({
+			email: to
+		}, { 
+			$set: {
+				resetTicket: ticket,
+				resetToken: token 
+			}
+		}, function(err, doc) {
+			if (err) {
+				res.json({
+					"r": 1,
+					"errcode": 2006,
+					"msg": "服务器错误，重置密码失败"
+				});
+				return;
+			}
+
+			if(!doc) {
+				res.json({
+					"r": 1,
+				    "errcode": 1007,
+				    "msg": "该邮箱尚未被注册"
+				});
+				return;
+			}
+
+			// 该邮箱已注册，往该邮箱发送一封重置密码邮件
+			mail.sendResetPassMail(to, token, function(response) {
+		        res.json({
+					"r": 0,
+					"msg": "发送重置密码邮件成功"
+				});
+			});
+
+		});
+		
+	},
+
+	// 修改密码
+	resetPassEmail: function(req, res) {
+		var token = req.param('token'),
+			password = req.param('password'),
+			rePassword = req.param('rePassword');
+
+		if(password != rePassword) {
+			res.json({
+				"r": 1,
+				"errcode": 1008,
+				"msg": "两次输入的密码不一致"
+			});
+			return;
+		}
+
+		User.findOneAndUpdate({
+			resetToken: token
+		}, {
+			$set: {
+				password: md5(password),
+				resetToken: '',
+				resetTicket: 0
+			}
+		}, function(err, doc) {
+			if (err) {
+				res.json({
+					"r": 1,
+					"errcode": 2009,
+					"msg": "服务器错误，重置密码失败"
+				});
+				return;
+			}
+
+			res.json({
+				"r": 0,
+				"msg": "重置密码成功"
+			});
+		});
+
+	},
+
+
+	modifyPassword: function(req, res) {
+		var currentPass = req.param('currentPass'),
+			newPass = req.param('newPass'),
+			reNewPass = req.param('reNewPass'),
+			_id = req.session._id;
+
+		if(!currentPass || !newPass || !reNewPass) {
+			res.json({
+				"r": 1,
+				"errcode": 1009,
+				"msg": "修改密码信息填写不完整"
+			});
+			return;
+		}
+
+		if(newPass !== reNewPass) {
+			res.json({
+				"r": 1,
+				"errcode": 1010,
+				"msg": "修改密码，两次输入的密码不一致"
+			});
+			return;
+		}
+
+		User.findOneAndUpdate({
+			_id: new ObjectId(_id),
+			password: md5(currentPass)
+		}, { 
+			$set: {
+				password: md5(newPass)
+			}
+		}, function(err, doc) {
+			if(err) {
+				res.json({
+					"r": 1,
+					"errcode": 2010,
+					"msg": "服务器错误，修改密码失败"
+				});
+				return;
+			}
+
+			if(!doc) {
+				res.json({
+					"r": 1,
+					"errcode": 1011,
+					"msg": "修改密码，当前密码不正确"
+				});
+				return;
+			}
+
+			res.json({
+				"r": 0,
+				"msg": "修改密码成功"
+			});
+			return;
+		});
 	}
 
+	
 	
 
 

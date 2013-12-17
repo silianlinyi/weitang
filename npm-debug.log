@@ -1,0 +1,171 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'base64' ]
+2 info using npm@1.3.14
+3 info using node@v0.10.22
+4 verbose readDependencies using package.json deps
+5 verbose cache add [ 'base64@2.1.0', null ]
+6 verbose cache add name=undefined spec="base64@2.1.0" args=["base64@2.1.0",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'base64@2.1.0',
+7 verbose parsed url   path: 'base64@2.1.0',
+7 verbose parsed url   href: 'base64@2.1.0' }
+8 verbose cache add name="base64" spec="2.1.0" args=["base64","2.1.0"]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: '2.1.0',
+9 verbose parsed url   path: '2.1.0',
+9 verbose parsed url   href: '2.1.0' }
+10 verbose addNamed [ 'base64', '2.1.0' ]
+11 verbose addNamed [ '2.1.0', '2.1.0' ]
+12 silly lockFile 401f2427-base64-2-1-0 base64@2.1.0
+13 verbose lock base64@2.1.0 /Users/kyle/.npm/401f2427-base64-2-1-0.lock
+14 verbose url raw base64/2.1.0
+15 verbose url resolving [ 'https://registry.npmjs.org/', './base64/2.1.0' ]
+16 verbose url resolved https://registry.npmjs.org/base64/2.1.0
+17 info trying registry request attempt 1 at 11:09:27
+18 verbose etag "5IEGUAH1SBSI4J04OZ4Z5768L"
+19 http GET https://registry.npmjs.org/base64/2.1.0
+20 http 304 https://registry.npmjs.org/base64/2.1.0
+21 silly registry.get cb [ 304,
+21 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R15B03)',
+21 silly registry.get     etag: '"5IEGUAH1SBSI4J04OZ4Z5768L"',
+21 silly registry.get     date: 'Thu, 12 Dec 2013 03:09:39 GMT',
+21 silly registry.get     'content-length': '0' } ]
+22 verbose etag base64/2.1.0 from cache
+23 silly lockFile 401f2427-base64-2-1-0 base64@2.1.0
+24 silly lockFile 401f2427-base64-2-1-0 base64@2.1.0
+25 silly resolved [ { name: 'base64',
+25 silly resolved     version: '2.1.0',
+25 silly resolved     main: 'base64',
+25 silly resolved     description: 'A C++ module for node-js that does base64 encoding and decoding.',
+25 silly resolved     keywords:
+25 silly resolved      [ 'base conversion',
+25 silly resolved        'base64',
+25 silly resolved        'base64 encode',
+25 silly resolved        'base64 decode',
+25 silly resolved        'base64_encode',
+25 silly resolved        'base64_decode',
+25 silly resolved        'encode',
+25 silly resolved        'decode' ],
+25 silly resolved     author:
+25 silly resolved      { name: 'Peteris Krumins',
+25 silly resolved        email: 'peteris.krumins@gmail.com',
+25 silly resolved        url: 'http://www.catonmat.net' },
+25 silly resolved     contributors: [ [Object] ],
+25 silly resolved     license: 'MIT',
+25 silly resolved     repository:
+25 silly resolved      { type: 'git',
+25 silly resolved        url: 'http://github.com/pkrumins/node-base64.git' },
+25 silly resolved     directories: { tests: 'tests' },
+25 silly resolved     engines: { node: '>=0.8.0' },
+25 silly resolved     scripts: { install: 'node-gyp rebuild' },
+25 silly resolved     gypfile: true,
+25 silly resolved     readme: 'Update: this module may no longer be necessary as nodejs includes its own\r\nbase64 encoding/decoding functions.\r\n\r\nThis is a node.js C++ module that encodes and decodes to/from base64. Oh, and\r\ncompared to all other modules, it actually works.\r\n\r\nIt was written by Peteris Krumins (peter@catonmat.net).\r\nHis blog is at http://www.catonmat.net  --  good coders code, great reuse.\r\n\r\n------------------------------------------------------------------------------\r\n\r\nTo build the module run:\r\n\r\n    node-waf configure build\r\n\r\nThis will produce `base64.node` binary module. To use it, make sure the\r\nmodule\'s directory is in NODE_PATH.\r\n\r\nThe module exports two functions `encode` and `decode`.\r\n\r\nencode\r\n------\r\n\r\nEncodes a buffer to base64, returns encoded ascii string. Unlike all other\r\nbase64, it actually works well with binary data. If you\'re wondering why it\r\ntakes a buffer as argument, it\'s because there is no way to pass binary\r\nstrings to C++ code in a sane way.\r\n\r\nHere is a basic example:\r\n\r\n    var sys = require(\'sys\');\r\n    var base64_encode = require(\'base64\').encode;\r\n    var Buffer = require(\'buffer\').Buffer;\r\n    \r\n    var buf = new Buffer(\'hello world\');\r\n\r\n    sys.print(base64_encode(buf));\r\n\r\n    /* Output: aGVsbG8gd29ybGQ= */\r\n\r\n\r\ndecode\r\n------\r\n\r\nDecodes a buffer containing base64 string, or just a base64 string to original\r\ndata.\r\n\r\n    var sys = require(\'sys\');\r\n    var base64_decode = require(\'base64\').decode;\r\n\r\n    sys.print(base64_decode(\'aGVsbG8gd29ybGQ=\'));\r\n\r\n    /* Output: hello world */\r\n\r\n\r\n------------------------------------------------------------------------------\r\n\r\n\r\nSGF2ZSBmdW4hCg==\r\n\r\n\r\nSincerely,\r\nPeteris Krumins\r\nhttp://www.catonmat.net\r\n\r\n',
+25 silly resolved     readmeFilename: 'readme.txt',
+25 silly resolved     bugs: { url: 'https://github.com/pkrumins/node-base64/issues' },
+25 silly resolved     homepage: 'https://github.com/pkrumins/node-base64',
+25 silly resolved     _id: 'base64@2.1.0',
+25 silly resolved     _from: 'base64@2.1.0' } ]
+26 info install base64@2.1.0 into /Users/kyle/Documents/GithubRepositories/weitang
+27 info installOne base64@2.1.0
+28 info /Users/kyle/Documents/GithubRepositories/weitang/node_modules/base64 unbuild
+29 info preuninstall base64@2.1.0
+30 info uninstall base64@2.1.0
+31 verbose true,/Users/kyle/Documents/GithubRepositories/weitang/node_modules,/Users/kyle/Documents/GithubRepositories/weitang/node_modules unbuild base64@2.1.0
+32 info postuninstall base64@2.1.0
+33 verbose tar unpack /Users/kyle/.npm/base64/2.1.0/package.tgz
+34 silly lockFile a4ba5fdc-ries-weitang-node-modules-base64 tar:///Users/kyle/Documents/GithubRepositories/weitang/node_modules/base64
+35 verbose lock tar:///Users/kyle/Documents/GithubRepositories/weitang/node_modules/base64 /Users/kyle/.npm/a4ba5fdc-ries-weitang-node-modules-base64.lock
+36 silly lockFile c8a93470-yle-npm-base64-2-1-0-package-tgz tar:///Users/kyle/.npm/base64/2.1.0/package.tgz
+37 verbose lock tar:///Users/kyle/.npm/base64/2.1.0/package.tgz /Users/kyle/.npm/c8a93470-yle-npm-base64-2-1-0-package-tgz.lock
+38 silly gunzTarPerm modes [ '755', '644' ]
+39 silly gunzTarPerm extractEntry package.json
+40 silly gunzTarPerm extractEntry .npmignore
+41 silly gunzTarPerm extractEntry base64.cc
+42 silly gunzTarPerm extractEntry binding.gyp
+43 silly gunzTarPerm extractEntry package.json~
+44 silly gunzTarPerm extractEntry readme.txt
+45 silly gunzTarPerm extractEntry test/encode.js
+46 silly gunzTarPerm extractEntry test/data/data-rand-11
+47 silly gunzTarPerm extractEntry test/data/data-png.png
+48 silly gunzTarPerm extractEntry test/data/data-rand-02
+49 silly gunzTarPerm extractEntry test/data/data-rand-03
+50 silly gunzTarPerm extractEntry test/data/data-rand-04
+51 silly gunzTarPerm extractEntry test/data/data-rand-05
+52 silly gunzTarPerm extractEntry test/data/data-rand-06
+53 silly gunzTarPerm extractEntry test/data/data-rand-07
+54 silly gunzTarPerm extractEntry test/data/data-rand-08
+55 silly gunzTarPerm extractEntry test/data/data-rand-09
+56 silly gunzTarPerm extractEntry test/data/data-rand-10
+57 silly gunzTarPerm extractEntry test/data/data-rand-01
+58 silly gunzTarPerm extractEntry test/data/data-rand-12
+59 silly gunzTarPerm extractEntry test/data/data-rand-13
+60 silly gunzTarPerm extractEntry test/data/data-rand-14
+61 silly gunzTarPerm extractEntry test/data/data-rand-15
+62 silly gunzTarPerm extractEntry test/data/data-rand-16
+63 silly gunzTarPerm extractEntry test/data/data-rand-17
+64 silly gunzTarPerm extractEntry test/data/data-rand-18
+65 silly gunzTarPerm extractEntry test/data/data-rand-19
+66 silly gunzTarPerm extractEntry test/data/data-rand-20
+67 silly gunzTarPerm extractEntry test/data/data-source-code.c
+68 silly gunzTarPerm extractEntry test/hashes.json
+69 silly gunzTarPerm extractEntry test/perl-base64-encode.pl
+70 silly gunzTarPerm extractEntry test/test.sh
+71 silly lockFile a4ba5fdc-ries-weitang-node-modules-base64 tar:///Users/kyle/Documents/GithubRepositories/weitang/node_modules/base64
+72 silly lockFile a4ba5fdc-ries-weitang-node-modules-base64 tar:///Users/kyle/Documents/GithubRepositories/weitang/node_modules/base64
+73 silly lockFile c8a93470-yle-npm-base64-2-1-0-package-tgz tar:///Users/kyle/.npm/base64/2.1.0/package.tgz
+74 silly lockFile c8a93470-yle-npm-base64-2-1-0-package-tgz tar:///Users/kyle/.npm/base64/2.1.0/package.tgz
+75 info preinstall base64@2.1.0
+76 verbose readDependencies using package.json deps
+77 verbose readDependencies using package.json deps
+78 silly resolved []
+79 verbose about to build /Users/kyle/Documents/GithubRepositories/weitang/node_modules/base64
+80 info build /Users/kyle/Documents/GithubRepositories/weitang/node_modules/base64
+81 verbose linkStuff [ false,
+81 verbose linkStuff   false,
+81 verbose linkStuff   false,
+81 verbose linkStuff   '/Users/kyle/Documents/GithubRepositories/weitang/node_modules' ]
+82 info linkStuff base64@2.1.0
+83 verbose linkBins base64@2.1.0
+84 verbose linkMans base64@2.1.0
+85 verbose rebuildBundles base64@2.1.0
+86 info install base64@2.1.0
+87 verbose unsafe-perm in lifecycle true
+88 info base64@2.1.0 Failed to exec install script
+89 info /Users/kyle/Documents/GithubRepositories/weitang/node_modules/base64 unbuild
+90 info preuninstall base64@2.1.0
+91 info uninstall base64@2.1.0
+92 verbose true,/Users/kyle/Documents/GithubRepositories/weitang/node_modules,/Users/kyle/Documents/GithubRepositories/weitang/node_modules unbuild base64@2.1.0
+93 info postuninstall base64@2.1.0
+94 error base64@2.1.0 install: `node-gyp rebuild`
+94 error Exit status 1
+95 error Failed at the base64@2.1.0 install script.
+95 error This is most likely a problem with the base64 package,
+95 error not with npm itself.
+95 error Tell the author that this fails on your system:
+95 error     node-gyp rebuild
+95 error You can get their info via:
+95 error     npm owner ls base64
+95 error There is likely additional logging output above.
+96 error System Darwin 13.0.0
+97 error command "node" "/usr/local/bin/npm" "install" "base64"
+98 error cwd /Users/kyle/Documents/GithubRepositories/weitang
+99 error node -v v0.10.22
+100 error npm -v 1.3.14
+101 error code ELIFECYCLE
+102 verbose exit [ 1, true ]

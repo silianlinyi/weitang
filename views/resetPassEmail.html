@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>重设密码 - 微糖</title>
+    <meta name="description" content="">
+    
+    <link rel="stylesheet" href="/semantic/packaged/css/semantic.css">
+    <link rel="stylesheet" href="/css/onepage-scroll.css">
+    <link rel="stylesheet" href="/css/resetPassword.css">
+
+    <!-- Le fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/icon/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/icon/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/icon/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/icon/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="/icon/favicon.ico">
+
+    <script src="/lib/jquery.min.js"></script>
+    <script src="/lib/jquery.onepage-scroll.min.js"></script>
+    <script>
+        $(function() {
+            $('.main').onepage_scroll({
+                sectionContainer: "section",
+                animationTime: 800,
+                responsiveFallback: 600,
+                pagination: false,
+                updateURL: false
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <div class="main">
+        <section class="page1">
+            <div class="page_container">
+                <h1 class="ui center aligned header logo">微糖 - 分享知识，分享快乐</h1>
+                <div class="ui form segment">
+
+                    <% if(r === 0) { %>
+                        <div class="field field1">
+                            <div class="ui inverted center aligned icon header">
+                                <i class="ok sign icon"></i>
+                                <div class="sub header">恭喜您，密码修改成功<span></span>。</div>
+                            </div>
+                            <a href="/" class="ui fluid red button">马上登录</a>
+                        </div>
+                        <div class="field field2">
+                            <div class="ui left labeled icon input">
+                                <input type="password" placeholder="新密码" class="password">
+                                <i class="lock icon"></i>
+                            </div>
+                        </div>
+                        <div class="field field2">
+                            <div class="ui left labeled icon input">
+                                <input type="password" placeholder="确认新密码" class="rePassword">
+                                <i class="lock icon"></i>
+                            </div>
+                        </div>
+                        <div class="ui small warning message">
+                            <i class="icon attention"></i>
+                        </div>
+                        <div class="field field2">
+                            <div class="ui fluid red button save">保存新密码</div>
+                        </div>
+                    <% } else { %>
+                        <div class="field">
+                            <div class="ui inverted center aligned icon header">
+                                <i class="circular bolt icon"></i>
+                                <div class="sub header">无效的链接地址，点击“<a href="/resetpassword" class="ui black header">这里</a>”重新发送邮件</div>
+                            </div>
+                        </div>
+                    <% } %>
+                    
+                    
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script src="/seajs/sea.js" data-config="/js/config" data-main="/js/resetPassEmail" ></script>
+</body>
+</html>

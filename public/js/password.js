@@ -1,34 +1,55 @@
 define(function(require, exports, module) {
 
-    $.fn.form.settings.defaults = {
-        currentPass: {
-            identifier: 'current-pass',
-            rules: [{
-                type: 'empty',
-                prompt: '请输入您的当前密码'
-            }]
-        },
+    require('../lib/jquery.base64.min');
 
-        newPass: {
-            identifier: 'new-pass',
-            rules: [{
-                type: 'empty',
-                prompt: '请输入您的新密码'
-            }]
-        },
+    var $message = $('.warning.message');
 
-        newRePass: {
-            identifier: 'new-re-pass',
-            rules: [{
-                type: 'empty',
-                prompt: '请确认您的新密码'
-            }]
+    // 点击“保存”按钮
+    $('.save.button').click(function() {
+        var currentPass = $('.currentPass').val().trim(),
+            newPass = $('.newPass').val().trim(),
+            reNewPass = $('.reNewPass').val().trim();
+
+        if(!currentPass) {
+            $message.html('<i class="icon attention"></i>当前密码不能为空').show();
+            return;
         }
-    };
+        if(!newPass) {
+            $message.html('<i class="icon attention"></i>新密码不能为空').show();
+            return;
+        }
+        if(!reNewPass) {
+            $message.html('<i class="icon attention"></i>确认新密码不能为空').show();
+            return;
+        }
+        if(newPass !== reNewPass) {
+            $message.html('<i class="icon attention"></i>两次输入的密码不一致，请重新输入').show();
+            return;
+        }
+        
+        $.ajax({
+            url : '/api/modifyPassword',
+            type: 'POST',
+            data : {
+                currentPass: $.base64.encode(currentPass),
+                newPass: $.base64.encode(newPass),
+                reNewPass: $.base64.encode(reNewPass)
+            },
+            success : function(data, textStatus, jqXHR) {
+                if(data.r === 0) {
+                    $message.html('<i class="icon right"></i>密码修改成功').show();
+                    return;
+                } else {
+                    $message.html('<i class="icon attention"></i>' + data.msg).show();
+                    return;
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+            }
+        });
 
-    $('.ui.form').form({}, {
-        inline: true,
-        on: 'blur'
+
     });
+
 
 });
