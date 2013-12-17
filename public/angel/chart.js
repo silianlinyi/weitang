@@ -47,17 +47,30 @@ define(function(require, exports, module) {
 			window.msRequestAnimationFrame ||
 			function(callback) {
 				window.setTimeout(callback, 1000 / 60);
-		};
+			};
 	})();
 
+	/**
+	 * @method Min
+	 * 返回数组中的最小值
+	 */
 	function Min(array) {
 		return Math.min.apply(Math, array);
 	};
 
+	/**
+	 * @method isNumber
+	 * 判断参数是否是Number类型
+	 */
 	function isNumber(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 
+	/**
+	 * 如果valueToCap < minValue，则返回minValue
+	 * 如果valueToCap > minValue && valueToCap < maxValue，则返回valueToCap
+	 * 如果valueToCap > maxValue，则返回maxValue
+	 */
 	function CapValue(valueToCap, maxValue, minValue) {
 		if (isNumber(maxValue)) {
 			if (valueToCap > maxValue) {
@@ -78,12 +91,13 @@ define(function(require, exports, module) {
 	 * -------------------------------------------------
 	 */
 	var Chart = Class.extend({
+
 		init: function(context) {
 			console.log('Chart init method involved.');
 			this.width = context.canvas.width;
 			this.height = context.canvas.height;
 		},
-
+		
 		mergeChartConfig: function(defaults, userDefined) {
 			var returnObj = {};
 			for (var attrname in defaults) {
@@ -96,15 +110,16 @@ define(function(require, exports, module) {
 		},
 
 		clear: function(ctx) {
-			var me = this;
-			ctx.clearRect(0, 0, me.width, me.height);
+			ctx.clearRect(0, 0, this.width, this.height);
 		},
 
-		animationLoop: function(config, drawScale, drawData, ctx) {
-			var me = this;
-			var animFrameAmount = (config.animation) ? 1 / CapValue(config.animationSteps, Number.MAX_VALUE, 1) : 1,
-				easingFunction = this.animationOptions[config.animationEasing],
-				percentAnimComplete = (config.animation) ? 0 : 1;
+		animationLoop: function(drawScale, drawData) {
+			var me = this,
+				config = me.config,
+				ctx = me.ctx;
+			var animFrameAmount = (config.animation) ? 1 / CapValue(config.animationSteps, Number.MAX_VALUE, 1) : 1, // 动画帧数
+				easingFunction = me.animationOptions[config.animationEasing], // 动画效果变化时间函数
+				percentAnimComplete = (config.animation) ? 0 : 1; // 动画完成百分比
 
 			if (typeof drawScale !== "function") drawScale = function() {};
 
@@ -146,25 +161,24 @@ define(function(require, exports, module) {
 	 * -------------------------------------------------
 	 */
 	var Pie = Chart.extend({
-		// 组件初始化时自动调用的方法
+		
 		init: function(data, options, context) {
-			var me = this;
-			this._super(context);
 			console.log('Pie init method involved.');
-			this.data = data;
-			this.ctx = context;
-			this.config = this.mergeChartConfig(this.defaults, options);
-			this.segmentTotal = 0;
-			this.pieRadius = Min([this.height / 2, this.width / 2]) - 5; //半径
+			var me = this;
+			me._super(context);
+			me.data = data;
+			me.ctx = context;
+			me.config = me.mergeChartConfig(me.defaults, options);
+			me.segmentTotal = 0; 
+			me.pieRadius = Min([me.height / 2, me.width / 2]) - 15; // 饼状图半径
 
 			for (var i = 0; i < data.length; i++) {
-				this.segmentTotal += data[i].value;
+				me.segmentTotal += data[i].value;
 			}
 
-			this.animationLoop(me.config, null, me.drawPieSegments, context);
-
+			me.animationLoop(null, me.drawPieSegments);
 		},
-		// Pie chart default config.
+
 		defaults: {
 			segmentShowStroke: true,
 			segmentStrokeColor: "#fff",
@@ -176,7 +190,9 @@ define(function(require, exports, module) {
 			animateScale: false,
 			onAnimationComplete: null
 		},
+
 		drawPieSegments: function(animationDecimal) {
+			var me = this;
 			var cumulativeAngle = -Math.PI / 2,
 				scaleAnimation = 1,
 				rotateAnimation = 1;
@@ -217,9 +233,18 @@ define(function(require, exports, module) {
 
 	});
 
+	/**
+	 * @class Line
+	 * Line chart
+	 * -------------------------------------------------
+	 */
+	var Line = Chart.extend({
+
+	});
 
 	exports.Pie = Pie;
 	exports.Bar = Bar;
+	exports.Line = Line;
 
 
 });

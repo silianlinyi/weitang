@@ -4,8 +4,8 @@ define(function(require, exports, module) {
 	var Bar = window.Bar = require('../angel/chart').Bar;
 
 
-	var canvas = document.getElementById('myCanvas'),
-		ctx = canvas.getContext('2d');
+	var pieCanvas = document.getElementById('pieCanvas'),
+		ctx = pieCanvas.getContext('2d');
 
 	var pieData = [{
 		value: 30,
@@ -21,7 +21,7 @@ define(function(require, exports, module) {
 	var options = {
 		segmentShowStroke: true, // 是否显示边框
 		segmentStrokeColor: "#fff", // 边框颜色
-		segmentStrokeWidth: 1, // 边框宽度
+		segmentStrokeWidth: 2, // 边框宽度
 		animation: true, // 是否开启动画效果
 		animationSteps: 20, //Number - Amount of animation steps
 		animationEasing: "linear", // 动画效果
@@ -32,7 +32,8 @@ define(function(require, exports, module) {
 		}
 	};
 
-
 	var myPie = window.pie = new Pie(pieData, options, ctx);
 
+
+	
 });
