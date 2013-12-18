@@ -35,5 +35,5 @@ define(function(require, exports, module) {
 	var myPie = window.pie = new Pie(pieData, options, ctx);
 
 
-	
+
 });

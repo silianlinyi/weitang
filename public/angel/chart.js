@@ -1,5 +1,9 @@
 define(function(require, exports, module) {
 
+	/* Simple JavaScript Inheritance
+	 * By John Resig http://ejohn.org/
+	 * MIT Licensed.
+	 */
 	(function() {
 		var initializing = false,
 			fnTest = /xyz/.test(function() {
@@ -47,7 +51,7 @@ define(function(require, exports, module) {
 			window.msRequestAnimationFrame ||
 			function(callback) {
 				window.setTimeout(callback, 1000 / 60);
-			};
+		};
 	})();
 
 	/**
@@ -97,7 +101,7 @@ define(function(require, exports, module) {
 			this.width = context.canvas.width;
 			this.height = context.canvas.height;
 		},
-		
+
 		mergeChartConfig: function(defaults, userDefined) {
 			var returnObj = {};
 			for (var attrname in defaults) {
@@ -161,7 +165,7 @@ define(function(require, exports, module) {
 	 * -------------------------------------------------
 	 */
 	var Pie = Chart.extend({
-		
+
 		init: function(data, options, context) {
 			console.log('Pie init method involved.');
 			var me = this;
@@ -169,7 +173,7 @@ define(function(require, exports, module) {
 			me.data = data;
 			me.ctx = context;
 			me.config = me.mergeChartConfig(me.defaults, options);
-			me.segmentTotal = 0; 
+			me.segmentTotal = 0;
 			me.pieRadius = Min([me.height / 2, me.width / 2]) - 15; // 饼状图半径
 
 			for (var i = 0; i < data.length; i++) {
