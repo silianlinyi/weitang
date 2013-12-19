@@ -96,12 +96,17 @@ define(function(require, exports, module) {
 	 */
 	var Chart = Class.extend({
 
-		init: function(context) {
+		init: function(data, options, context) {
 			console.log('Chart init method involved.');
-			this.width = context.canvas.width;
-			this.height = context.canvas.height;
+			var self = this;
+			self.data = data;
+			self.ctx = context;
+			self.config = self.mergeChartConfig(self.defaults, options);
+			self.width = context.canvas.width;
+			self.height = context.canvas.height;
 		},
 
+		// 默认配置和用户自定义配置
 		mergeChartConfig: function(defaults, userDefined) {
 			var returnObj = {};
 			for (var attrname in defaults) {
@@ -113,26 +118,27 @@ define(function(require, exports, module) {
 			return returnObj;
 		},
 
+		// 清屏
 		clear: function(ctx) {
 			ctx.clearRect(0, 0, this.width, this.height);
 		},
 
 		animationLoop: function(drawScale, drawData) {
-			var me = this,
-				config = me.config,
-				ctx = me.ctx;
-			var animFrameAmount = (config.animation) ? 1 / CapValue(config.animationSteps, Number.MAX_VALUE, 1) : 1, // 动画帧数
-				easingFunction = me.animationOptions[config.animationEasing], // 动画效果变化时间函数
-				percentAnimComplete = (config.animation) ? 0 : 1; // 动画完成百分比
+			var self = this,
+				config = self.config,
+				ctx = self.ctx;
+			var animFrameAmount = (config.animation) ? 1 / CapValue(config.animationSteps, Number.MAX_VALUE, 1) : 1,
+				easingFunction = self.animationOptions[config.animationEasing], // 动画效果变化时间函数
+				counter = 0; // 分几次画，已经画了多少次
 
 			if (typeof drawScale !== "function") drawScale = function() {};
 
 			requestAnimFrame(animLoop);
 
 			function animLoop() {
-				percentAnimComplete += animFrameAmount;
+				counter++;
 				animateFrame();
-				if (percentAnimComplete <= 1) {
+				if (config.animation && counter < config.animationSteps) {
 					requestAnimFrame(animLoop);
 				} else {
 					if (typeof config.onAnimationComplete == "function") config.onAnimationComplete();
@@ -140,14 +146,14 @@ define(function(require, exports, module) {
 			}
 
 			function animateFrame() {
-				var easeAdjustedAnimationPercent = (config.animation) ? CapValue(easingFunction(percentAnimComplete), null, 0) : 1;
-				me.clear(ctx);
-				if (config.scaleOverlay) {
-					drawData.call(me, easeAdjustedAnimationPercent);
-					drawScale();
+				var easeAdjustedAnimationPercent = (config.animation) ? CapValue(easingFunction(counter / config.animationSteps), null, 0) : 1;
+				self.clear(ctx);
+				if (config.scaleOverlay) { //决定是先画坐标轴还是先画数据
+					drawData.call(self, easeAdjustedAnimationPercent);
+					drawScale.call(self);
 				} else {
-					drawScale();
-					drawData.call(me, easeAdjustedAnimationPercent);
+					drawScale.call(self);
+					drawData.call(self, easeAdjustedAnimationPercent);
 				}
 			}
 		},
@@ -155,6 +161,9 @@ define(function(require, exports, module) {
 		animationOptions: {
 			linear: function(t) {
 				return t;
+			},
+			easeInQuad: function (t) {
+				return t*t;
 			}
 		}
 	});
@@ -165,22 +174,19 @@ define(function(require, exports, module) {
 	 * -------------------------------------------------
 	 */
 	var Pie = Chart.extend({
-
+		// 构造函数
 		init: function(data, options, context) {
 			console.log('Pie init method involved.');
-			var me = this;
-			me._super(context);
-			me.data = data;
-			me.ctx = context;
-			me.config = me.mergeChartConfig(me.defaults, options);
-			me.segmentTotal = 0;
-			me.pieRadius = Min([me.height / 2, me.width / 2]) - 15; // 饼状图半径
+			var self = this;
+			self._super(data, options, context);
+			self.segmentTotal = 0;
+			self.pieRadius = Min([self.height / 2, self.width / 2]) - 25; // 饼状图半径
 
 			for (var i = 0; i < data.length; i++) {
-				me.segmentTotal += data[i].value;
+				self.segmentTotal += data[i].value;
 			}
 
-			me.animationLoop(null, me.drawPieSegments);
+			self.animationLoop(self.drawScale, self.drawPieSegments);
 		},
 
 		defaults: {
@@ -189,40 +195,134 @@ define(function(require, exports, module) {
 			segmentStrokeWidth: 2,
 			animation: true,
 			animationSteps: 100,
-			animationEasing: "easeOutBounce",
+			animationEasing: "easeInQuad",
 			animateRotate: true,
 			animateScale: false,
 			onAnimationComplete: null
 		},
 
 		drawPieSegments: function(animationDecimal) {
-			var me = this;
-			var cumulativeAngle = -Math.PI / 2,
+			var self = this;
+			var cumulativeAngle = -Math.PI / 2 ,
 				scaleAnimation = 1,
 				rotateAnimation = 1;
-			if (this.config.animation) {
-				if (this.config.animateScale) {
+			if (self.config.animation) {
+				if (self.config.animateScale) {
 					scaleAnimation = animationDecimal;
 				}
-				if (this.config.animateRotate) {
+				if (self.config.animateRotate) {
 					rotateAnimation = animationDecimal;
 				}
 			}
-			for (var i = 0; i < this.data.length; i++) {
-				var segmentAngle = rotateAnimation * ((this.data[i].value / this.segmentTotal) * (Math.PI * 2));
-				this.ctx.beginPath();
-				this.ctx.arc(this.width / 2, this.height / 2, scaleAnimation * this.pieRadius, cumulativeAngle, cumulativeAngle + segmentAngle);
-				this.ctx.lineTo(this.width / 2, this.height / 2);
-				this.ctx.closePath();
-				this.ctx.fillStyle = this.data[i].color;
-				this.ctx.fill();
+			for (var i = 0; i < self.data.length; i++) {
+				var segmentAngle = rotateAnimation * ((self.data[i].value / self.segmentTotal) * (Math.PI * 2));
+				self.ctx.beginPath();
+				self.ctx.arc(self.width / 3, self.height / 2, scaleAnimation * self.pieRadius, cumulativeAngle, cumulativeAngle + segmentAngle);
+				self.ctx.lineTo(self.width / 3, self.height / 2);
+				self.ctx.closePath();
+				self.ctx.fillStyle = self.data[i].color;
+				self.ctx.fill();
 
-				if (this.config.segmentShowStroke) {
-					this.ctx.lineWidth = this.config.segmentStrokeWidth;
-					this.ctx.strokeStyle = this.config.segmentStrokeColor;
-					this.ctx.stroke();
+				if (self.config.segmentShowStroke) {
+					self.ctx.lineWidth = self.config.segmentStrokeWidth;
+					self.ctx.strokeStyle = self.config.segmentStrokeColor;
+					self.ctx.stroke();
 				}
 				cumulativeAngle += segmentAngle;
+			}
+		},
+
+		drawScale: function() {
+			var self = this,
+				ctx = self.ctx,
+				data = self.data;
+
+			for(var i = 0; i < data.length; i++) {
+				ctx.fillStyle = data[i].color;
+				ctx.fillRect(self.width - 130, 25 + i * 25,30,15);
+				ctx.fillStyle = '#666';
+				ctx.fillText(data[i].tag, self.width - 80, 37 + i * 25);
+			}
+		}
+
+	});
+
+	/**
+	 * @class Doughnut
+	 * Doughnut chart
+	 * -------------------------------------------------
+	 */
+	var Doughnut = Chart.extend({
+		init: function(data, options, context) {
+			console.log('Doughnut init method involved.');
+			var self = this;
+			self._super(data, options, context);
+			self.segmentTotal = 0;
+			self.doughnutRadius = Min([self.height/2, self.width/2]) - 25;
+			self.cutoutRadius = self.doughnutRadius * (self.config.percentageInnerCutout/100);
+
+			for (var i=0; i<data.length; i++){
+				self.segmentTotal += data[i].value;
+			}
+			self.animationLoop(self.drawScale, self.drawPieSegments);
+		},
+
+		defaults: {
+			segmentShowStroke : true,
+			segmentStrokeColor : "#fff",
+			segmentStrokeWidth : 2,
+			percentageInnerCutout : 40,
+			animation : true,
+			animationSteps : 20,
+			animationEasing : "easeInQuad",
+			animateRotate : true,
+			animateScale : false,
+			onAnimationComplete : null
+		},
+
+		drawPieSegments: function(animationDecimal) {
+			var self = this;
+			var cumulativeAngle = -Math.PI/2,
+				scaleAnimation = 1,
+				rotateAnimation = 1;
+
+			if(self.config.animation) {
+				if(self.animateScale) {
+					scaleAnimation = animationDecimal;
+				}
+				if(self.config.animateRotate) {
+					rotateAnimation = animationDecimal;
+				}
+			}
+
+			for(var i = 0; i < self.data.length; i++) {
+				var segmentAngle = rotateAnimation * ((self.data[i].value / self.segmentTotal) * (Math.PI*2));
+				self.ctx.beginPath();
+				self.ctx.arc(self.width/2.5,self.height/2,scaleAnimation * self.doughnutRadius, cumulativeAngle, cumulativeAngle + segmentAngle, false);
+				self.ctx.arc(self.width/2.5,self.height/2,scaleAnimation * self.cutoutRadius,cumulativeAngle + segmentAngle,cumulativeAngle,true);
+				self.ctx.closePath();
+				self.ctx.fillStyle = self.data[i].color;
+				self.ctx.fill();
+
+				if(self.config.segmentShowStroke) {
+					self.ctx.lineWidth = self.config.segmentStrokeWidth;
+					self.ctx.strokeStyle = self.config.segmentStrokeColor;
+					self.ctx.stroke();
+				}
+				cumulativeAngle += segmentAngle;
+			}
+		},
+
+		drawScale: function() {
+			var self = this,
+				ctx = self.ctx,
+				data = self.data;
+
+			for(var i = 0; i < data.length; i++) {
+				ctx.fillStyle = data[i].color;
+				ctx.fillRect(self.width - 130, 25 + i * 25,30,15);
+				ctx.fillStyle = '#666';
+				ctx.fillText(data[i].tag, self.width - 80, 37 + i * 25);
 			}
 		}
 
@@ -235,20 +335,34 @@ define(function(require, exports, module) {
 	 */
 	var Bar = Chart.extend({
 
+		init: function(data, options, context) {
+			var self = this;
+			self._super(data, options, context);
+
+			self.animationLoop(self.drawScale, self.drawBars);
+		},
+
+		defaults: {
+
+		},
+
+		drawBars: function(animPc) {
+
+		},
+
+		drawScale: function() {
+
+		}
+
+
 	});
 
-	/**
-	 * @class Line
-	 * Line chart
-	 * -------------------------------------------------
-	 */
-	var Line = Chart.extend({
+	
 
-	});
 
 	exports.Pie = Pie;
+	exports.Doughnut = Doughnut;
 	exports.Bar = Bar;
-	exports.Line = Line;
 
 
 });
