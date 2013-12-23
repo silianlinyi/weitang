@@ -338,13 +338,58 @@ define(function(require, exports, module) {
 		init: function(data, options, context) {
 			var self = this;
 			self._super(data, options, context);
+			self.ctx.font = self.config.scaleFontStyle + " " + self.config.scaleFontSize + "px " + self.config.scaleFontFamily;
+
+
+			self.widestXLabel = 1; //X轴方向文本标签最长值
+			for(var i = 0; i < data.labels.length; i++) {
+				var xTextLength = self.ctx.measureText(data.labels[i]).width;
+				self.widestXLabel = (xTextLength > self.widestXLabel) ? xTextLength : self.widestXLabel;
+			}
+
+			self.widestYLabel = 1; //Y轴方向文本标签最长值
+			for(var j = 0; j < data.datasets.data.length; j++) {
+				var yTextLength = self.ctx.measureText(data.datasets.data[j]).width;
+				self.widestYLabel = (yTextLength > self.widestYLabel) ? yTextLength : self.widestYLabel;
+			}
+
+			var yTagLength = self.ctx.measureText(data.yTag).width;
+
+			self.widestYLabel = (yTagLength > self.widestYLabel) ? yTagLength : self.widestYLabel;
+
+			self.labelHeight = self.config.scaleFontSize; // 坐标轴文本标签的高度
+
 
 			self.animationLoop(self.drawScale, self.drawBars);
 		},
 
 		defaults: {
-
+//			scaleOverlay: false,
+//			scaleOverride: false,
+//			scaleSteps: null,
+//			scaleStepWidth: null,
+//			scaleStartValue: null,
+//			scaleLineColor: "rgba(0,0,0,.1)",
+//			scaleLineWidth: 1,
+//			scaleShowLabels: true,
+//			scaleLabel: "<%=value%>",
+			scaleFontFamily: "'Arial'",
+			scaleFontSize: 12,
+			scaleFontStyle: "normal",
+//			scaleFontColor: "#666",
+//			scaleShowGridLines: true,
+//			scaleGridLineColor: "rgba(0,0,0,.05)",
+//			scaleGridLineWidth: 1,
+//			barShowStroke: true,
+//			barStrokeWidth: 2,
+//			barValueSpacing: 5,
+//			barDatasetSpacing: 1,
+//			animation: true,
+//			animationSteps: 60,
+//			animationEasing: "easeOutQuart",
+//			onAnimationComplete: null
 		},
+
 
 		drawBars: function(animPc) {
 

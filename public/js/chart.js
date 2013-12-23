@@ -78,9 +78,16 @@ define(function(require, exports, module) {
 	var barCanvas = document.getElementById('barCanvas'),
 		barContext = barCanvas.getContext('2d');
 
-	var barData = [
-
-	];
+	var barData = {
+		labels : ["January","February","March","April","May","June","July"],
+		datasets : {
+			fillColor : "rgba(220,220,220,0.5)",
+			strokeColor : "rgba(220,220,220,1)",
+			data : [65,59,90,81,56,55,40]
+		},
+		xTag: "日期",
+		yTag: "次数"
+	}
 
 	var barOptions = {
 
