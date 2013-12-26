@@ -95,6 +95,9 @@ define(function(require, exports, module) {
 
 	var bar = window.bar = new Bar(barData, barOptions, barContext);
 
+	// ------------------------------------------------------
+	
+
 
 
 });

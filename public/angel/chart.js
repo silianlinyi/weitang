@@ -452,23 +452,23 @@ define(function(require, exports, module) {
 			ctx.stroke();
 			ctx.closePath();
 
-			if (self.rotateLabels > 0) {
-				ctx.textAlign = 'right';
-			} else {
-				ctx.textAlign = "center";
-			}
+
 
 			ctx.fillStyle = config.scaleFontColor;
+			ctx.translate(0, ctx.height);
 			for (var i = 0; i < self.data.labels.length; i++) {
 				ctx.save();
 				if (self.rotateLabels > 0) {
-					//ctx.rotate(-(self.rotateLabels * (Math.PI / 180)));
-					ctx.fillText(self.data.labels[i], self.leftButtomCorner[0] + (i + 0.5) * self.scaleWidth, self.leftButtomCorner[1] + self.labelHeight * 1.5);
+					ctx.rotate(-Math.PI / 4);
+					ctx.translate((i + 1) * 25, (i + 1) * 25);
+					ctx.fillText(self.data.labels[i], 0, 0);
 				} else {
 					ctx.fillText(self.data.labels[i], self.leftButtomCorner[0] + (i + 0.5) * self.scaleWidth, self.leftButtomCorner[1] + self.labelHeight * 1.5);
 				}
 				ctx.restore();
 			}
+
+			
 		}
 
 

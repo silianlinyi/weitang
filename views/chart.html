@@ -30,17 +30,43 @@
     
 
     <script type="text/javascript">
-
         var canvas = document.getElementById('test');
         var ctx = canvas.getContext('2d');
+        var width = canvas.width;
+        var height = canvas.height;
 
+        var labels = ["一月份", "二月份", "三月份", "四月份", "五月份", "六月份", "七月份", "八月份", "九月份", "十月份", "十一月份", "十二月份"];
+
+        ctx.translate(0, height);
+        ctx.textAlign = "left";
+
+        for(var i = 0; i < labels.length; i++) {
+            ctx.save();
+
+            ctx.rotate(-Math.PI / 4);
+            ctx.translate((i + 1) * 25, (i + 1) * 25);
+            ctx.fillText(labels[i], 0, 0);
+
+            ctx.beginPath();
+            ctx.moveTo(0,0);
+            ctx.lineTo(200,000);
+            ctx.closePath();
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        
+        
+
+        
+        
 
 
 
 
 
     </script>
-    
     
     <script src="/seajs/sea.js" data-config="/js/config" data-main="/js/chart" ></script> 
 
