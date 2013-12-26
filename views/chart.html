@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width">
     <title>图表组件</title>
     <meta name="description" content="">
 
@@ -13,17 +13,33 @@
 	
 	<style type="text/css">
 		canvas {
-			background: #eee;
+			border: 1px solid #ccc;
+            background: #fff;
 		}
 	</style>
 
 </head>
 <body>
 
+    <canvas width="450" height="350" id="test"></canvas>
+
     
-    <canvas width="550" height="400" id="pieCanvas"></canvas>
-    <canvas width="550" height="400" id="doughnutCanvas"></canvas>
-    <canvas width="550" height="400" id="barCanvas"></canvas>
+    <canvas width="450" height="350" id="pieCanvas"></canvas>
+    <canvas width="450" height="350" id="doughnutCanvas"></canvas>
+    <canvas width="450" height="350" id="barCanvas"></canvas>
+    
+
+    <script type="text/javascript">
+
+        var canvas = document.getElementById('test');
+        var ctx = canvas.getContext('2d');
+
+
+
+
+
+
+    </script>
     
     
     <script src="/seajs/sea.js" data-config="/js/config" data-main="/js/chart" ></script> 

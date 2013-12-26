@@ -50,19 +50,19 @@ define(function(require, exports, module) {
 
 	var doughnutData = [{
 		value: 30,
-		color:"#F7464A",
+		color: "#F7464A",
 		tag: "谷歌搜索"
 	}, {
-		value : 50,
-		color : "#E2EAE9",
+		value: 50,
+		color: "#E2EAE9",
 		tag: "360搜索"
 	}, {
-		value : 100,
-		color : "#D4CCC5",
+		value: 100,
+		color: "#D4CCC5",
 		tag: "百度搜索"
 	}, {
-		value : 40,
-		color : "#949FB1",
+		value: 40,
+		color: "#949FB1",
 		tag: "搜搜"
 	}];
 
@@ -79,11 +79,11 @@ define(function(require, exports, module) {
 		barContext = barCanvas.getContext('2d');
 
 	var barData = {
-		labels : ["January","February","March","April","May","June","July"],
-		datasets : {
-			fillColor : "rgba(220,220,220,0.5)",
-			strokeColor : "rgba(220,220,220,1)",
-			data : [65,59,90,81,56,55,40]
+		labels: ["一月份", "二月份", "三月份", "四月份", "五月份", "六月份", "七月份", "八月份", "九月份", "十月份", "十一月份", "十二月份"],
+		datasets: {
+			fillColor: "rgba(220,220,220,0.5)",
+			strokeColor: "rgba(220,220,220,1)",
+			data: [65, 59, 90, 81, 56, 55, 40]
 		},
 		xTag: "日期",
 		yTag: "次数"
@@ -94,8 +94,6 @@ define(function(require, exports, module) {
 	};
 
 	var bar = window.bar = new Bar(barData, barOptions, barContext);
-
-
 
 
 
