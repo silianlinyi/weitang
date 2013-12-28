@@ -8,14 +8,15 @@ define(function(require, exports, module) {
 	// 修改模版标签为
 	// <? ?>、<?= ?>、<?- ?>
 	_.templateSettings = {
-		evaluate : /\<\?([\s\S]+?)\?\>/g,
-		interpolate : /\<\?=([\s\S]+?)\?\>/g,
-		escape : /\<\?-([\s\S]+?)\?\>/g
+		evaluate: /\<\?([\s\S]+?)\?\>/g,
+		interpolate: /\<\?=([\s\S]+?)\?\>/g,
+		escape: /\<\?-([\s\S]+?)\?\>/g
 	};
 
 	// 页面元素
 	var $loadMore = $('.loadMore');
-	
+	var $loading = $('.loading');
+
 	/**
 	 * Question Model
 	 * 问题模型
@@ -28,7 +29,7 @@ define(function(require, exports, module) {
 	 * createTime		问题创建时间
 	 * updateTime		问题最后更新时间
 	 * ====================================================
-	 */ 
+	 */
 	var Question = Backbone.Model.extend({
 		defaults: {
 			title: '',
@@ -60,16 +61,16 @@ define(function(require, exports, module) {
 		tagName: "div",
 		className: "ui basic segment",
 		template: $("#questionTemp").html(),
-		events : {
+		events: {
 			"click .heart": "heart",
 			"click .bookmark": "bookmark",
 			"click .share": "share"
 		},
-		
+
 		initialize: function() {
 			var me = this;
 		},
-		
+
 		render: function() {
 			var tmpl = _.template(this.template);
 			this.$el.html(tmpl(this.model.toJSON()));
@@ -78,7 +79,7 @@ define(function(require, exports, module) {
 
 		heart: function() {
 			// TODO
-			
+
 		},
 
 		bookmark: function() {
@@ -101,17 +102,17 @@ define(function(require, exports, module) {
 		events: {
 			"click .loadMore": "loadMore"
 		},
-		
+
 		initialize: function() {
 			var me = this;
 			me.questionList = new QuestionList();
-			
+
 			me.queryConfig = {
-				pageStart : 0,
-				pageSize : 10,
+				pageStart: 0,
+				pageSize: 10,
 				createTime: ""
 			};
-			me.findQuestions();	// 页面初始化时加载10条系统消息
+			me.findQuestions(); // 页面初始化时加载10条系统消息
 			me.questionList.on("add", me.renderOneQuestion, me);
 		},
 
@@ -122,7 +123,7 @@ define(function(require, exports, module) {
 		renderOneQuestion: function(model) {
 			var me = this;
 
-			model.set('createTimeLocal',Util.convertDate(model.get("createTime")));
+			model.set('createTimeLocal', Util.convertDate(model.get("createTime")));
 			var view = new QuestionView({
 				model: model
 			});
@@ -139,11 +140,11 @@ define(function(require, exports, module) {
 				log("findQuestionsByPage failCall invoked.");
 			}
 			$.ajax({
-				url : '/api/question/findQuestionsByPage',
+				url: '/api/question/findQuestionsByPage',
 				type: 'POST',
-				data :me.queryConfig,
-				success : function(data, textStatus, jqXHR) {
-					if(data.r === 0) {
+				data: me.queryConfig,
+				success: function(data, textStatus, jqXHR) {
+					if (data.r === 0) {
 						succCall(data);
 					}
 				},
@@ -162,8 +163,9 @@ define(function(require, exports, module) {
 
 			me.findQuestionsByPage(function(data) {
 				log(data);
+				$loading.hide();
 				var len = data.questionList.length;
-				if(len > 0 && len < pageSize) {
+				if (len > 0 && len < pageSize) {
 					me.questionList.add(data.questionList);
 				} else {
 					me.questionList.add(data.questionList);
@@ -185,9 +187,9 @@ define(function(require, exports, module) {
 			me.findQuestionsByPage(function(data) {
 				log(data);
 				var len = data.questionList.length;
-				if(len === 0) {
+				if (len === 0) {
 					$loadMore.html('无更多问题');
-				} else if(len < pageSize) {
+				} else if (len < pageSize) {
 					me.questionList.add(data.questionList);
 					me.queryConfig.pageStart++;
 					me.queryConfig.createTime = data.questionList[len - 1].createTime;
@@ -204,14 +206,6 @@ define(function(require, exports, module) {
 
 	// 生成一个应用实例
 	var app = window.app = new AppView();
-
-
-
-
-
-
-
-
 
 
 

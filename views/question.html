@@ -21,37 +21,24 @@
     <script src="/lib/jquery.min.js"></script>
     <script src="/semantic/packaged/javascript/semantic.min.js"></script>
 </head>
-<body id='questionApp'>
+<body>
 
     <% include ./inc_topmenu.html %>
     <% include ./inc_sidebar.html %>
 
     <div class="ui page grid mainpage">
         <div class="twelve wide column">
- 
-            
 
-            <div class="ui comments">
-  <div class="comment">
-    <a class="avatar">
-      <img src="/img/photo2.jpg">
-    </a>
-    <div class="content">
-      <a class="author">Dog Doggington</a>
-      <div class="metadata">
-        <div class="date">2 days ago</div>
-      </div>
-      <div class="text">
-        I think this is a great idea and i am voting on it
-      </div>
-      <div class="actions">
-        <a class="reply active">Reply</a>
-        <a class="delete">Delete</a>
-      </div>
-      
-    </div>
-  </div>
-</div>
+            <div class="ui comments"></div>
+
+            <form class="ui reply form">
+                <div class="field">
+                    <textarea class="content"></textarea>
+                </div>
+                <div class="ui button teal submit labeled icon addReply">
+                    <i class="icon edit"></i>添加回答
+                </div>
+            </form>
 
         </div>
         <div class="four wide column">
@@ -88,8 +75,6 @@
             <div class="ui divider"></div>
 
             <img src="/img/bg2.jpg" width="250" alt="">
-
-            
             
             <h5 class="ui header">相关问题</h5>
 
@@ -114,10 +99,6 @@
     
     <% include ./inc_gotop.html %>
     <% include ./inc_footer.html %>
-    
-
-
-    
     
         
 		

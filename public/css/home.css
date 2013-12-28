@@ -31,3 +31,7 @@
 #appHome .loadMore.button {
 	display: none;
 }
+.questionList .loading {
+	height: 400px;
+	line-height: 400px !important;
+}
